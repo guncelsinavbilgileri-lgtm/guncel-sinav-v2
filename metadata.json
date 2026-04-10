@@ -1,0 +1,7 @@
+{
+  "name": "Guncel Sinav Bilgileri V2",
+  "description": "Guncel sinav duyurulari, basvuru kilavuzlari ve sinav ucretleri takip uygulamasi.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

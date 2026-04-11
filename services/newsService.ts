@@ -1,4 +1,4 @@
-import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, getDocFromServer, doc } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, getDocFromServer, doc, setDoc, getDocs, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { NewsItem } from '../types';
 
@@ -77,6 +77,28 @@ export const addNewsItem = async (news: Omit<NewsItem, 'id'>) => {
     });
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, NEWS_COLLECTION);
+  }
+};
+
+export const setNewsItem = async (news: Omit<NewsItem, 'id'>, id: string) => {
+  try {
+    await setDoc(doc(db, NEWS_COLLECTION, id), {
+      ...news,
+      createdAt: serverTimestamp()
+    });
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, NEWS_COLLECTION);
+  }
+};
+
+export const clearNews = async () => {
+  try {
+    const q = query(collection(db, NEWS_COLLECTION));
+    const snapshot = await getDocs(q);
+    const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, NEWS_COLLECTION);
   }
 };
 

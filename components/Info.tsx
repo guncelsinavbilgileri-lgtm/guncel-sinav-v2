@@ -1,11 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, ShieldCheck, Globe, Info as InfoIcon, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Globe, Info as InfoIcon, LogIn, LogOut, User as UserIcon, Database } from 'lucide-react';
 import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { seedDatabase } from '../services/seedService';
 
 const Info: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [isSeeding, setIsSeeding] = useState(false);
+  const [seedStatus, setSeedStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -14,13 +17,29 @@ const Info: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  const isAdmin = user?.email === 'guncelsinavbilgileri@gmail.com';
+
+  const handleSeed = async () => {
+    setSeedStatus('idle');
+    setIsSeeding(true);
+    const success = await seedDatabase();
+    setIsSeeding(false);
+    
+    if (success) {
+      setSeedStatus('success');
+      setTimeout(() => setSeedStatus('idle'), 3000);
+    } else {
+      setSeedStatus('error');
+      setTimeout(() => setSeedStatus('idle'), 3000);
+    }
+  };
+
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Giriş hatası:", error);
-      alert("Giriş yapılamadı. Lütfen tekrar deneyin.");
     }
   };
 
@@ -54,6 +73,43 @@ const Info: React.FC = () => {
         
         {/* Cam Kart Tasarımıyla Bölümler */}
         <section className="glass-card p-6 rounded-[2.5rem] border border-white/60 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-md">
+                <UserIcon size={20} />
+              </div>
+              <h2 className="text-xl font-black text-indigo-950 font-['Outfit'] tracking-tight">
+                {user ? 'Profilim' : 'Giriş Yap'}
+              </h2>
+            </div>
+            {user ? (
+              <button onClick={handleLogout} className="text-red-500 font-bold text-xs uppercase tracking-widest flex items-center space-x-1">
+                <LogOut size={14} />
+                <span>Çıkış</span>
+              </button>
+            ) : (
+              <button onClick={handleLogin} className="text-indigo-600 font-bold text-xs uppercase tracking-widest flex items-center space-x-1">
+                <LogIn size={14} />
+                <span>Giriş</span>
+              </button>
+            )}
+          </div>
+          {user ? (
+            <div className="flex items-center space-x-3">
+              <img src={user.photoURL || ''} alt="" className="w-10 h-10 rounded-full border-2 border-indigo-100" />
+              <div>
+                <p className="text-sm font-bold text-gray-800">{user.displayName}</p>
+                <p className="text-[10px] text-gray-500 font-medium">{user.email}</p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-600 text-sm leading-relaxed font-medium">
+              Yönetici araçlarına erişmek ve size özel bildirimler almak için giriş yapın.
+            </p>
+          )}
+        </section>
+
+        <section className="glass-card p-6 rounded-[2.5rem] border border-white/60 shadow-sm">
           <div className="flex items-center space-x-3 mb-4">
             <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-md">
               <InfoIcon size={20} />
@@ -80,6 +136,36 @@ const Info: React.FC = () => {
             Uygulamamız resmi bir hükümet kuruluşu değildir ve hiçbir bakanlığı temsil etmez. Bilgiler rehberlik amaçlıdır.
           </p>
         </section>
+
+        {isAdmin && (
+          <section className="glass-card p-6 rounded-[2.5rem] border border-indigo-100 bg-indigo-50/30">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-md">
+                <Database size={20} />
+              </div>
+              <h3 className="text-lg font-black text-indigo-950 font-['Outfit'] uppercase tracking-tight">
+                Yönetici Araçları
+              </h3>
+            </div>
+            <button 
+              onClick={handleSeed}
+              disabled={isSeeding}
+              className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg active:scale-95 transition-all disabled:opacity-50 ${
+                seedStatus === 'success' ? 'bg-green-500 text-white' : 
+                seedStatus === 'error' ? 'bg-red-500 text-white' : 
+                'bg-indigo-600 text-white'
+              }`}
+            >
+              {isSeeding ? 'GÜNCELLENİYOR...' : 
+               seedStatus === 'success' ? 'BAŞARIYLA GÜNCELLENDİ!' :
+               seedStatus === 'error' ? 'HATA OLUŞTU!' :
+               'VERİTABANINI SIFIRLA / GÜNCELLE'}
+            </button>
+            <p className="mt-3 text-[10px] text-indigo-400 font-bold text-center">
+              * Bu işlem tüm detay sayfalarını varsayılan içerikle günceller.
+            </p>
+          </section>
+        )}
 
         {/* Listenin mikro-detaylarla zenginleştirilmesi */}
         <section className="space-y-4">

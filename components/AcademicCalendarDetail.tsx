@@ -1,35 +1,34 @@
-
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, Share2, Loader2 } from 'lucide-react';
+import { ChevronLeft, Share2, Loader2, Calendar } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { getFeeDetailById, FeeDetailData } from '../services/examService';
+import { getAcademicCalendarById, AcademicCalendarData } from '../services/examService';
 import { handleShare } from '../lib/share';
 
-interface FeeDetailProps {
+interface AcademicCalendarDetailProps {
   onBack: () => void;
-  feeId?: string;
+  id?: string;
 }
 
-const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
-  const [detail, setDetail] = useState<FeeDetailData | null>(null);
+const AcademicCalendarDetail: React.FC<AcademicCalendarDetailProps> = ({ onBack, id = '1' }) => {
+  const [detail, setDetail] = useState<AcademicCalendarData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetail = async () => {
       setLoading(true);
       try {
-        const data = await getFeeDetailById(feeId);
+        const data = await getAcademicCalendarById(id);
         setDetail(data);
       } catch (error) {
-        console.error("Error fetching fee detail:", error);
+        console.error("Error fetching academic calendar detail:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchDetail();
-  }, [feeId]);
+  }, [id]);
 
   if (loading) {
     return (
@@ -42,7 +41,7 @@ const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
   if (!detail) {
     return (
       <div className="fixed inset-0 bg-white z-[65] flex flex-col items-center justify-center p-6 max-w-md mx-auto">
-        <p className="text-gray-500 mb-4">Bu bölüm için henüz detaylı bilgi eklenmemiş.</p>
+        <p className="text-gray-500 mb-4">Bu bölüm için henüz bilgi eklenmemiş.</p>
         <button onClick={onBack} className="text-indigo-600 font-bold">Geri Dön</button>
       </div>
     );
@@ -66,34 +65,35 @@ const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
       </header>
 
       {/* Hero Image */}
-      <div className="w-full h-72 overflow-hidden relative">
+      <div className="w-full h-72 overflow-hidden relative bg-indigo-900">
         <img 
-          src={detail.imageUrl || "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=800&auto=format&fit=crop"} 
+          src={detail.imageUrl || "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=800"} 
           alt={detail.title} 
-          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover brightness-90"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
       </div>
 
       {/* Content Container */}
       <article className="px-5 py-8">
-        <h1 className="text-3xl font-extrabold text-gray-800 leading-tight mb-4 font-['Outfit'] text-center uppercase">
-          {detail.title}
-        </h1>
+        <div className="flex items-center justify-center space-x-3 mb-4">
+          <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
+            <Calendar size={24} />
+          </div>
+          <h1 className="text-2xl font-extrabold text-gray-800 leading-tight font-['Outfit'] uppercase">
+            {detail.title}
+          </h1>
+        </div>
 
         <div className="flex flex-col items-center justify-center text-center mb-6">
-          <p className="text-[#A0522D] text-base font-semibold">
-            Son Güncelleme: {detail.lastUpdate || (detail as any).lastupdate || 'Belirtilmedi'}
+          <p className="text-indigo-600 text-sm font-semibold">
+            Son Güncelleme: {detail.lastUpdate || 'Belirtilmedi'}
           </p>
           <div className="w-40 h-0.5 bg-gray-200 mt-4" />
-
-          <button 
-            onClick={handleShare}
-            className="mt-6 flex items-center space-x-2 bg-indigo-50 text-indigo-600 px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all border border-indigo-100"
-          >
-            <Share2 size={16} />
-            <span>Arkadaşınla Paylaş</span>
-          </button>
         </div>
 
         <div className="markdown-body prose prose-indigo max-w-none text-gray-700">
@@ -108,4 +108,4 @@ const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
   );
 };
 
-export default FeeDetail;
+export default AcademicCalendarDetail;

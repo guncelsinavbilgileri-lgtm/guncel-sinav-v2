@@ -1,13 +1,17 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, NewsItem } from './types';
 import Home from './components/Home';
 import NewsDetail from './components/NewsDetail';
 import ExamDetail from './components/ExamDetail';
 import FeeDetail from './components/FeeDetail';
+import HowToApplyDetail from './components/HowToApplyDetail';
+import AcademicCalendarDetail from './components/AcademicCalendarDetail';
 import FeedbackForm from './components/FeedbackForm';
 import Contact from './components/Contact';
 import Info from './components/Info';
+import SplashScreen from './components/SplashScreen';
+import { initializePushNotifications } from './services/notificationService';
 import { Home as HomeIcon, ClipboardList, Mail, Info as InfoIcon } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -15,6 +19,13 @@ const App: React.FC = () => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [showExamDetail, setShowExamDetail] = useState(false);
   const [showFeeDetail, setShowFeeDetail] = useState(false);
+  const [showHowToApply, setShowHowToApply] = useState(false);
+  const [showAcademicCalendar, setShowAcademicCalendar] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    initializePushNotifications();
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -24,6 +35,8 @@ const App: React.FC = () => {
             onNewsClick={(news) => setSelectedNews(news)} 
             onExamClick={() => setShowExamDetail(true)}
             onFeeClick={() => setShowFeeDetail(true)}
+            onHowToApplyClick={() => setShowHowToApply(true)}
+            onAcademicCalendarClick={() => setShowAcademicCalendar(true)}
           />
         );
       case Tab.Form:
@@ -33,21 +46,32 @@ const App: React.FC = () => {
       case Tab.Info:
         return <Info />;
       default:
-        return <Home onNewsClick={(news) => setSelectedNews(news)} onExamClick={() => setShowExamDetail(true)} onFeeClick={() => setShowFeeDetail(true)} />;
+        return (
+          <Home 
+            onNewsClick={(news) => setSelectedNews(news)} 
+            onExamClick={() => setShowExamDetail(true)} 
+            onFeeClick={() => setShowFeeDetail(true)} 
+            onHowToApplyClick={() => setShowHowToApply(true)}
+            onAcademicCalendarClick={() => setShowAcademicCalendar(true)}
+          />
+        );
     }
   };
 
   return (
     <div className="max-w-md mx-auto min-h-screen relative flex flex-col overflow-hidden bg-[#F8FAFF]">
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       
       {/* Detail Overlays */}
       {selectedNews && <NewsDetail news={selectedNews} onBack={() => setSelectedNews(null)} />}
       {showExamDetail && <ExamDetail onBack={() => setShowExamDetail(false)} />}
       {showFeeDetail && <FeeDetail onBack={() => setShowFeeDetail(false)} />}
+      {showHowToApply && <HowToApplyDetail onBack={() => setShowHowToApply(false)} />}
+      {showAcademicCalendar && <AcademicCalendarDetail onBack={() => setShowAcademicCalendar(false)} />}
 
       {/* Premium Global Header */}
       {activeTab === Tab.Home && (
-        <header className="sticky top-0 z-50 premium-header apple-blur px-5 pt-12 pb-6 shadow-sm border-b border-indigo-50">
+        <header className="sticky top-0 z-50 premium-header apple-blur px-5 pt-3 pb-3 shadow-sm border-b border-indigo-50">
           <div className="flex items-center space-x-4">
             <div className="relative group shrink-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
@@ -72,13 +96,13 @@ const App: React.FC = () => {
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto pb-28 scroll-smooth">
+      <main className="flex-1 overflow-y-auto pb-20 scroll-smooth">
         {renderContent()}
       </main>
 
       {/* High-End Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 px-4 pb-4">
-        <div className="h-20 bg-[#2D2A26] rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-around relative overflow-hidden ring-1 ring-white/10">
+      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 px-4 pb-3">
+        <div className="h-16 bg-[#2D2A26] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-around relative overflow-hidden ring-1 ring-white/10">
           <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent pointer-events-none"></div>
           
           {[

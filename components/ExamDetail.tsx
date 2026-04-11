@@ -4,6 +4,7 @@ import { ChevronLeft, Share2, Minus, Plus, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getExamDetailById, ExamDetailData } from '../services/examService';
+import { handleShare } from '../lib/share';
 
 interface ExamDetailProps {
   onBack: () => void;
@@ -55,7 +56,10 @@ const ExamDetail: React.FC<ExamDetailProps> = ({ onBack, examId = '1' }) => {
           <ChevronLeft size={28} strokeWidth={2.5} />
         </button>
         <div className="flex items-center space-x-4">
-          <button className="p-2 text-indigo-600 active:scale-90 transition-transform">
+          <button 
+            onClick={handleShare}
+            className="p-2 text-indigo-600 active:scale-90 transition-transform"
+          >
             <Share2 size={22} />
           </button>
         </div>
@@ -82,6 +86,14 @@ const ExamDetail: React.FC<ExamDetailProps> = ({ onBack, examId = '1' }) => {
             Son Güncelleme: {detail.lastUpdate || (detail as any).lastupdate || 'Belirtilmedi'}
           </p>
           <div className="w-40 h-0.5 bg-gray-200 mt-4" />
+          
+          <button 
+            onClick={handleShare}
+            className="mt-6 flex items-center space-x-2 bg-indigo-50 text-indigo-600 px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all border border-indigo-100"
+          >
+            <Share2 size={16} />
+            <span>Arkadaşınla Paylaş</span>
+          </button>
         </div>
 
         <div className="markdown-body prose prose-indigo max-w-none text-gray-700">

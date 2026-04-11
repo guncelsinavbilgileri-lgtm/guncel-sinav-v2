@@ -56,5 +56,23 @@ service cloud.firestore {
       allow read: if true; // Publicly readable
       allow write: if isAdmin(); // Only admin can update
     }
+
+    // How to Apply Collection
+    match /how_to_apply/{detailId} {
+      allow read: if true; // Publicly readable
+      allow write: if isAdmin(); // Only admin can update
+    }
+
+    // Academic Calendar Collection
+    match /academic_calendar/{detailId} {
+      allow read: if true; // Publicly readable
+      allow write: if isAdmin(); // Only admin can update
+    }
+
+    // FCM Tokens Collection
+    match /fcm_tokens/{tokenId} {
+      allow create, update: if true; // Devices need to register their tokens
+      allow read, delete: if isAdmin(); // Only admin can manage tokens
+    }
   }
 }

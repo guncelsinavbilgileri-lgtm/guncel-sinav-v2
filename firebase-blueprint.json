@@ -52,6 +52,44 @@
         "imageUrl": { "type": "string" }
       },
       "required": ["title", "lastUpdate", "content"]
+    },
+    "HowToApply": {
+      "title": "How To Apply",
+      "description": "Information on how to apply for exam duties.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "lastUpdate": { "type": "string" },
+        "content": { "type": "string", "description": "Markdown content for steps" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "lastUpdate", "content"]
+    },
+    "AcademicCalendar": {
+      "title": "Academic Calendar",
+      "description": "Information about the academic year dates.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "lastUpdate": { "type": "string" },
+        "content": { "type": "string", "description": "Markdown content for the calendar details." },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "lastUpdate", "content"]
+    },
+    "FcmToken": {
+      "title": "FCM Token",
+      "description": "Store device tokens for push notifications.",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" },
+        "userId": { "type": "string" },
+        "platform": { "type": "string" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["token", "lastUpdated"]
     }
   },
   "firestore": {
@@ -70,6 +108,18 @@
     "/fee_details": {
       "schema": "FeeDetail",
       "description": "Detailed fee information."
+    },
+    "/how_to_apply": {
+      "schema": "HowToApply",
+      "description": "Information on how to apply for exam duties."
+    },
+    "/academic_calendar": {
+      "schema": "AcademicCalendar",
+      "description": "Information about the academic year dates."
+    },
+    "/fcm_tokens": {
+      "schema": "FcmToken",
+      "description": "Collection of device tokens for notifications."
     }
   }
 }

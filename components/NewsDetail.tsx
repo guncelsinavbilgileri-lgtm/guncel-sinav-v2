@@ -57,7 +57,7 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ news, onBack }) => {
           <div className="w-32 h-0.5 bg-indigo-100 mt-4" />
         </div>
 
-        <div className="prose prose-indigo max-w-none text-gray-700 leading-relaxed text-lg">
+        <div className="prose prose-indigo max-w-none text-gray-700 leading-relaxed text-lg whitespace-pre-wrap">
           {news.content}
         </div>
       </article>

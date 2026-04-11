@@ -1,8 +1,37 @@
 
-import React from 'react';
-import { AlertTriangle, ShieldCheck, Globe, Info as InfoIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { AlertTriangle, ShieldCheck, Globe, Info as InfoIcon, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { auth } from '../firebase';
+import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 
 const Info: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Giriş hatası:", error);
+      alert("Giriş yapılamadı. Lütfen tekrar deneyin.");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Çıkış hatası:", error);
+    }
+  };
+
   return (
     <div className="pb-28 animate-in fade-in duration-500">
       {/* Premium Header */}

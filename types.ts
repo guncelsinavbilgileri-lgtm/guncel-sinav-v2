@@ -7,7 +7,9 @@ export interface NewsItem {
   title: string;
   imageUrl: string;
   date: string;
-  content: React.ReactNode;
+  content: string; // Changed to string for Firestore storage
+  category?: string;
+  order?: number; // Added for custom sorting
 }
 
 export interface ExamInfo {

@@ -1,7 +1,11 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NewsItem, ExamInfo } from '../types';
-import { Sparkles, AlertCircle } from 'lucide-react';
+import { Sparkles, AlertCircle, Database } from 'lucide-react';
+import { subscribeToNews, addNewsItem, testConnection } from '../services/newsService';
+import { addExamDetail, addFeeDetail } from '../services/examService';
+import { auth } from '../firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 interface HomeProps {
   onNewsClick: (news: NewsItem) => void;
@@ -10,42 +14,97 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick }) => {
-  const topNews: NewsItem[] = [
-    {
-      id: '1',
-      title: 'Kasım Seminerlerinde Süre Uzatıldı',
-      date: '20/11/2025',
-      imageUrl: 'https://images.unsplash.com/photo-1524178232363-1fb28f74b671?auto=format&fit=crop&q=80&w=600',
-      content: (
-        <div className="space-y-6 text-justify">
-          <p>Kasım 2025 ara tatilinde tamamlanması gereken Mesleki Çalışma Seminer eğitimi, teknik aksaklıklar ve sitede oluşan yoğunluk nedeniyle zorlukla tamamlanabilmişti.</p>
-          <p>Tamamlayamayan öğretmenler için eğitimler 23 Kasım Pazar saat 23:59'a kadar uzatıldı.</p>
-        </div>
-      )
-    },
-    {
-      id: '2',
-      title: 'Kasım 2025 Seminerleri',
-      date: '07/11/2025',
-      imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=600',
-      content: (
-        <div className="space-y-6">
-          <p>Milli Eğitim Bakanlığı Kasım 2025 ara tatilinde yapılacak Mesleki Çalışma Seminerlerini açıkladı.</p>
-        </div>
-      )
-    },
-    {
-      id: '3',
-      title: '2025-2026 Akademik Takvim',
-      date: '15/05/2025',
-      imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600',
-      content: (
-        <div className="space-y-6">
-          <p>Milli Eğitim Bakanlığı "2025-2026 Eğitim Öğretim Yılı Çalışma Takvimi"ni yayımladı.</p>
-        </div>
-      )
+  const [newsList, setNewsList] = useState<NewsItem[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    testConnection();
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    const unsubscribeNews = subscribeToNews((news) => {
+      setNewsList(news);
+    });
+
+    return () => {
+      unsubscribeAuth();
+      unsubscribeNews();
+    };
+  }, []);
+
+  const isAdmin = user?.email === 'guncelsinavbilgileri@gmail.com';
+
+  const seedData = async () => {
+    const initialNews = [
+      {
+        title: 'Kasım Seminerlerinde Süre Uzatıldı',
+        date: '2025-11-20',
+        imageUrl: 'https://images.unsplash.com/photo-1524178232363-1fb28f74b671?auto=format&fit=crop&q=80&w=600',
+        content: 'Kasım 2025 ara tatilinde tamamlanması gereken Mesleki Çalışma Seminer eğitimi, teknik aksaklıklar ve sitede oluşan yoğunluk nedeniyle zorlukla tamamlanabilmişti. Tamamlayamayan öğretmenler için eğitimler 23 Kasım Pazar saat 23:59\'a kadar uzatıldı.',
+        category: 'Sınav',
+        order: 1
+      },
+      {
+        title: 'Kasım 2025 Seminerleri',
+        date: '2025-11-07',
+        imageUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=600',
+        content: 'Milli Eğitim Bakanlığı Kasım 2025 ara tatilinde yapılacak Mesleki Çalışma Seminerlerini açıkladı.',
+        category: 'Sınav',
+        order: 2
+      }
+    ];
+
+    for (const item of initialNews) {
+      await addNewsItem(item);
     }
-  ];
+
+    const initialExamDetail = {
+      title: 'Güncel Sınavlar',
+      lastUpdate: '11/04/2026',
+      content: `Başvuruya açık **1** sınavda toplam **3** oturum listelenmiştir.
+
+## AÖF SINAVLARI:
+1. Güz Dönem Sonu Sınavı
+Toplam 3 oturum görevi vardır.
+
+| Son Başvuru Tarih - Saat | Sınav Tarih - Saat |
+| :--- | :--- |
+| 24.12.2025 - 23:59 | 17.01.2026 - 09:00 |
+| | 17.01.2026 - 13:00 |
+| | 18.01.2026 - 09:00 |
+`,
+      imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'
+    };
+
+    await addExamDetail(initialExamDetail);
+
+    const initialFeeDetail = {
+      title: 'Sınav Ücretleri',
+      lastUpdate: '11/04/2026',
+      content: `## MEB:
+| Görev | Net Ücret |
+| :--- | :--- |
+| Salon Başkanı | 1.626 TL |
+| Gözetmen | 1.577 TL |
+| Yedek Gözetmen | 1.182 TL |
+
+## ÖSYM:
+| Görev | Net Ücret |
+| :--- | :--- |
+| Salon Başkanı | 1.370 TL |
+| Gözetmen | 1.226 TL |
+
+### ÖNEMLİ NOTLAR:
+Hesaplara yatan net ücretler; vergi dilimi ve kesintilere göre değişiklik gösterebilir. Lütfen resmi duyuruları takip ediniz.
+`,
+      imageUrl: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=800&auto=format&fit=crop'
+    };
+
+    await addFeeDetail(initialFeeDetail);
+    
+    alert('Örnek veriler eklendi!');
+  };
 
   const heroExams: ExamInfo[] = [
     {
@@ -62,18 +121,27 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick }) => 
     }
   ];
 
+  const displayNews = newsList.length > 0 ? newsList : [];
+
   return (
     <div className="flex flex-col space-y-6 animate-in fade-in duration-700 pb-16">
       <section className="px-5 mt-4">
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="p-1.5 bg-indigo-50 rounded-lg text-indigo-600">
-            <Sparkles size={16} />
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <div className="p-1.5 bg-indigo-50 rounded-lg text-indigo-600">
+              <Sparkles size={16} />
+            </div>
+            <h2 className="text-lg font-black text-indigo-950 title-font tracking-tight uppercase">Son Haberler</h2>
           </div>
-          <h2 className="text-lg font-black text-indigo-950 title-font tracking-tight uppercase">Son Haberler</h2>
         </div>
         
         <div className="flex overflow-x-auto space-x-5 pb-4 scrollbar-hide snap-x">
-          {topNews.map((news) => (
+          {displayNews.length === 0 && (
+            <div className="w-full py-10 text-center text-gray-400 font-medium italic">
+              Henüz haber bulunmuyor...
+            </div>
+          )}
+          {displayNews.map((news) => (
             <div 
               key={news.id} 
               onClick={() => onNewsClick(news)}
@@ -85,6 +153,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick }) => 
                   src={news.imageUrl} 
                   alt="" 
                   loading="eager"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover block transition-opacity duration-500"
                   onLoad={(e) => {
                     (e.target as HTMLImageElement).style.opacity = '1';

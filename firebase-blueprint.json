@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "NewsItem": {
+      "title": "News Item",
+      "description": "A news announcement about exams or fees.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier" },
+        "title": { "type": "string", "description": "Title of the news" },
+        "date": { "type": "string", "description": "Date of the news" },
+        "content": { "type": "string", "description": "Full content of the news" },
+        "category": { "type": "string", "description": "Category (e.g., Sınav, Ücret)" },
+        "image": { "type": "string", "description": "Optional image URL" },
+        "order": { "type": "number", "description": "Sort order (smaller first)" }
+      },
+      "required": ["title", "date", "content", "category"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User feedback from the form.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message", "timestamp"]
+    },
+    "ExamDetail": {
+      "title": "Exam Detail",
+      "description": "Detailed information about exams including tables in markdown.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "lastUpdate": { "type": "string" },
+        "content": { "type": "string", "description": "Markdown content for text and tables" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "lastUpdate", "content"]
+    },
+    "FeeDetail": {
+      "title": "Fee Detail",
+      "description": "Detailed information about exam fees including tables in markdown.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "lastUpdate": { "type": "string" },
+        "content": { "type": "string", "description": "Markdown content for text and tables" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "lastUpdate", "content"]
+    }
+  },
+  "firestore": {
+    "/news": {
+      "schema": "NewsItem",
+      "description": "Collection of news items."
+    },
+    "/feedback": {
+      "schema": "Feedback",
+      "description": "Collection of user feedback."
+    },
+    "/exam_details": {
+      "schema": "ExamDetail",
+      "description": "Detailed exam information."
+    },
+    "/fee_details": {
+      "schema": "FeeDetail",
+      "description": "Detailed fee information."
+    }
+  }
+}

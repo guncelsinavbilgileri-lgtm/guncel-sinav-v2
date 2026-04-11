@@ -63,6 +63,9 @@ const App: React.FC = () => {
               <h1 className="title-font text-[19px] font-[900] tracking-tighter leading-tight uppercase text-gradient">
                 Güncel Sınav Bilgileri
               </h1>
+              <p className="text-[10px] font-black text-indigo-400/80 uppercase tracking-[0.2em] mt-0.5 ml-0.5">
+                Öğretmen Rehberi
+              </p>
             </div>
           </div>
         </header>

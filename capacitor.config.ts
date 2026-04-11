@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.guncelsinav.rehberi',
+  appId: 'guncel.sinav.bilgileri',
   appName: 'Güncel Sınav Bilgileri',
   webDir: 'dist',
   server: {

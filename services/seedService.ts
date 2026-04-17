@@ -133,9 +133,9 @@ Milli Eğitim Bakanlığı tarafından açıklanan resmi takvim bilgileridir:
 
     console.log("Seeding app settings...");
     await setDoc(doc(db, 'settings', 'app_config'), {
-      shareUrl: 'https://onelink.to/guncelsinav',
-      privacyUrl: 'https://guncelsinav.com/privacy',
-      termsUrl: 'https://guncelsinav.com/terms',
+      shareUrl: 'https://onelink.to/ubjarg',
+      privacyUrl: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/privacy.html',
+      termsUrl: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/terms.html',
       updatedAt: serverTimestamp()
     });
 

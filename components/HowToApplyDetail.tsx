@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, Share2, Loader2, Construction, TriangleAlert } from 'lucide-react';
+import { ChevronLeft, Share2, Minus, Plus, Loader2, Construction, TriangleAlert } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getHowToApplyById, HowToApplyData } from '../services/examService';
@@ -13,6 +13,15 @@ interface HowToApplyDetailProps {
 const HowToApplyDetail: React.FC<HowToApplyDetailProps> = ({ onBack, id = '1' }) => {
   const [detail, setDetail] = useState<HowToApplyData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fontSize, setFontSize] = useState(16);
+
+  const increaseFontSize = () => {
+    if (fontSize < 24) setFontSize(prev => prev + 2);
+  };
+
+  const decreaseFontSize = () => {
+    if (fontSize > 12) setFontSize(prev => prev - 2);
+  };
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -92,6 +101,21 @@ const HowToApplyDetail: React.FC<HowToApplyDetailProps> = ({ onBack, id = '1' })
           >
             <Share2 size={22} />
           </button>
+          <div className="flex items-center bg-indigo-50 rounded-full px-3 py-1 space-x-3">
+            <button 
+              onClick={decreaseFontSize}
+              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+            >
+              A<Minus size={10} className="ml-0.5" />
+            </button>
+            <div className="w-px h-3 bg-indigo-200" />
+            <button 
+              onClick={increaseFontSize}
+              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+            >
+              A<Plus size={10} className="ml-0.5" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -130,7 +154,10 @@ const HowToApplyDetail: React.FC<HowToApplyDetailProps> = ({ onBack, id = '1' })
           </button>
         </div>
 
-        <div className="markdown-body prose prose-indigo max-w-none text-gray-700">
+        <div 
+          className="markdown-body prose prose-indigo max-w-none text-gray-700"
+          style={{ fontSize: `${fontSize}px` }}
+        >
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {detail.content}
           </ReactMarkdown>

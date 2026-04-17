@@ -92,20 +92,20 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
     <div className="flex flex-col space-y-1 animate-in fade-in duration-700 pb-4">
       {/* Akademik Takvim & Sayaç Kutusu */}
       <section className="px-5 mt-4">
-        <div className="premium-card p-6 border-indigo-100/50">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center space-x-3 overflow-hidden">
-              <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-lg shadow-indigo-200 shrink-0">
-                <Calendar size={18} />
+        <div className="premium-card p-5 border-indigo-100/50">
+          <div className="flex items-center justify-between mb-5 space-x-2">
+            <div className="flex items-center space-x-2 overflow-hidden">
+              <div className="p-1.5 bg-indigo-600 rounded-xl text-white shadow-lg shadow-indigo-200 shrink-0">
+                <Calendar size={16} />
               </div>
-              <h2 className="text-[17px] font-black text-indigo-950 uppercase tracking-tight whitespace-nowrap">Akademik Takvim</h2>
+              <h2 className="text-[15px] font-[900] text-indigo-950 uppercase tracking-tighter whitespace-nowrap overflow-hidden text-ellipsis">Akademik Takvim</h2>
             </div>
             <button 
               onClick={onAcademicCalendarClick}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-full text-[12px] font-black shadow-lg shadow-indigo-200 active:scale-95 transition-all flex items-center space-x-2 shrink-0"
+              className="bg-indigo-600 text-white px-3.5 py-2 rounded-full text-[11px] font-black shadow-lg shadow-indigo-200 active:scale-95 transition-all flex items-center space-x-1.5 shrink-0"
             >
               <span className="whitespace-nowrap">2025-2026</span>
-              <Pointer size={14} className="animate-bounce" />
+              <Pointer size={12} className="animate-bounce" />
             </button>
           </div>
           

@@ -55,108 +55,124 @@ const Info: React.FC = () => {
         </h1>
       </div>
 
-      <div className="w-full h-56 relative overflow-hidden">
+      {/* Hero Section */}
+      <div className="w-full h-64 relative overflow-hidden">
         <img 
           src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" 
           alt="Uygulama Hakkında" 
-          className="w-full h-full object-cover brightness-75"
+          className="w-full h-full object-cover brightness-75 scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/60 via-indigo-950/20 to-transparent"></div>
+        <div className="absolute bottom-8 left-8 right-8">
+          <p className="text-white/70 text-[10px] uppercase font-black tracking-[0.3em] mb-2">Platform Hakkında</p>
+          <h2 className="title-font text-3xl font-[900] text-white tracking-tight leading-none uppercase">Genel Bilgiler</h2>
+        </div>
       </div>
 
-      <div className="px-6 py-8 max-w-md mx-auto space-y-8">
+      <div className="px-6 py-10 max-w-md mx-auto space-y-10">
         
         {/* Uygulama Hakkında */}
-        <section className="glass-card p-6 rounded-[2.5rem] border border-white/60 shadow-sm">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-md">
-              <InfoIcon size={20} />
+        <section className="premium-card p-8 border-indigo-100/30">
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+              <InfoIcon size={24} />
             </div>
-            <h2 className="text-xl font-black text-indigo-950 font-['Outfit'] tracking-tight">
+            <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight">
               Uygulama Hakkında
             </h2>
           </div>
-          <div className="space-y-4 text-gray-600 text-[14px] leading-relaxed font-medium">
+          <div className="space-y-6 text-gray-700 text-[15px] leading-relaxed font-bold opacity-90">
             <p>
-              Uygulama, farklı kurumlardan sınav görevi almak isteyen öğretmenlere zaman kazandırılıp kolaylık sağlanması amacıyla hazırlanmıştır.
+              Uygulama, farklı kurumlardan sınav görevi almak isteyen öğretmenlere zaman kazandırılması ve kolaylık sağlanması amacıyla profesyonel bir hassasiyetle hazırlanmıştır.
             </p>
             <p>
-              Uygulama içeriğindeki bilgiler, herkesin ilgili kurum sitelerinden serbestçe elde edebileceği bilgilerden oluşmaktadır.
+              Uygulama içeriğindeki tüm veriler, herkesin ilgili resmi kurum sitelerinden serbestçe elde edebileceği açık kaynaklı bilgilerden derlenerek oluşturulmaktadır.
             </p>
             <p>
-              Uygulamada geliştirilmesi istenen bölümler; eklenmesi, düzeltilmesi veya kaldırılması talep edilen bilgiler "Bize Ulaşın" bölümünden iletilmelidir.
+              Uygulamada geliştirilmesi istenen bölümler, yeni eklenmesi talep edilen özellikler veya düzeltilmesi gereken kısımlar "Bize Ulaşın" bölümünden tarafımıza iletilebilir.
             </p>
           </div>
         </section>
 
         {/* Feragatname */}
-        <section className="p-6 bg-red-50/50 rounded-[2.5rem] border border-red-100">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="p-2 bg-red-600 rounded-xl text-white shadow-md">
-              <ShieldCheck size={20} />
+        <section className="p-8 bg-red-50/40 rounded-[2.5rem] border border-red-100/50 shadow-sm">
+          <div className="flex items-center space-x-4 mb-5">
+            <div className="p-3 bg-red-600 rounded-2xl text-white shadow-xl shadow-red-100">
+              <ShieldCheck size={24} />
             </div>
-            <h3 className="text-lg font-black text-red-600 font-['Outfit'] uppercase tracking-tight">
-              FERAGATNAME
+            <h3 className="text-xl font-[900] text-red-600 font-['Outfit'] uppercase tracking-tight">
+              Yasal Sorumluluk
             </h3>
           </div>
-          <div className="space-y-4 text-red-950 text-[13px] leading-relaxed font-bold">
+          <div className="space-y-5 text-red-950 text-[14px] leading-relaxed font-black opacity-90">
             <p>
-              Uygulama bir hükümet kuruluşunu temsil ETMEMEKTEDİR, resmi bilgi açıklamaya yetkili bir uygulama DEĞİLDİR. Uygulamayı güncelleyen ve düzenleyen kişilerden hiçbiri hükümet veya bakanlık yetkilisi DEĞİLDİR.
+              Uygulama herhangi bir resmi hükümet kuruluşunu temsil etmemektedir ve resmi bilgi açıklamaya yetkili bir Merci değildir. Uygulamayı güncelleyen ve düzenleyen kişilerden hiçbiri hükümet veya bakanlık yetkilisi statüsünde değildir.
             </p>
             <p>
-              Kullanılan bilgiler <span className="underline">www.osym.gov.tr</span>, <span className="underline">www.meb.gov.tr</span>, <span className="underline">www.istanbul.edu.tr</span> ve <span className="underline">www.anadolu.edu.tr</span> sitelerinin "Duyurular" bölümlerinden alınıp derlenmektedir.
+              Kullanılan bilgiler başta <span className="underline decoration-red-200">www.osym.gov.tr</span>, <span className="underline decoration-red-200">www.meb.gov.tr</span>, <span className="underline decoration-red-200">www.istanbul.edu.tr</span> ve <span className="underline decoration-red-200">www.anadolu.edu.tr</span> olmak üzere resmi kurumların duyurular bölümlerinden alınmaktadır.
             </p>
           </div>
         </section>
 
         {/* Uyarı */}
-        <section className="glass-card p-6 rounded-[2.5rem] border border-indigo-100 bg-indigo-50/20">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-md">
-              <AlertTriangle size={20} />
+        <section className="premium-card p-8 border-indigo-100/30 bg-indigo-50/10">
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+              <AlertTriangle size={24} />
             </div>
-            <h3 className="text-lg font-black text-indigo-950 font-['Outfit'] uppercase tracking-tight">
-              UYARI
+            <h3 className="text-xl font-[900] text-indigo-950 font-['Outfit'] uppercase tracking-tight">
+              Önemli Bilgilendirme
             </h3>
           </div>
-          <div className="space-y-4 text-gray-700 text-[13px] leading-relaxed font-semibold">
+          <div className="space-y-6 text-indigo-950 text-[14px] leading-relaxed font-bold opacity-80">
             <p>
-              İçerikteki bilgi-tarih bölümleri güncel tutulmakta olmakla birlikte; uygulama, kullanıcıya hiçbir taahhütte bulunmaz.
+              İçerikteki tüm bilgiler ve tarihler sürekli güncel tutulmaya çalışılsa da; uygulama, kullanıcılara yönelik hiçbir hukuki taahhütte bulunmamaktadır.
             </p>
-            <ul className="list-disc list-inside space-y-1 ml-1 text-indigo-900">
-              <li>Uygulama içeriğinde verilen bilgilerde hatalar olabilir.</li>
-              <li>Güncelliğin sağlanamaması mümkündür.</li>
-              <li>Tarih bilgilerinde hatalar olabilir.</li>
+            <ul className="space-y-3">
+              {[
+                'Sunulan bilgilerde yazım veya veri hataları bulunabilir.',
+                'Teknik nedenlerle güncelliğin anlık sağlanamaması mümkündür.',
+                'Sınav takvimlerinde kurumlarca yapılan son dakika değişiklikleri olabilir.'
+              ].map((text, i) => (
+                <li key={i} className="flex items-start space-x-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 shrink-0"></div>
+                  <span>{text}</span>
+                </li>
+              ))}
             </ul>
-            <p>
-              Burada yazılan veya yazılmayan sorunlar, uygulama sahibinin sorumluluğunda değildir. Kullanıcı, bu bilgileri bilerek uygulamayı kurmalı ve yüklemelidir.
-            </p>
-            <p>
-              Önemli bilgileri ilgili kurumların sitelerine girerek kontrol etmek, kullanıcının sorumluluğundadır. Uygulama, oluşacak mağduriyetlerden, yaşanabilecek sıkıntılardan sorumlu tutulamaz.
+            <p className="mt-4 italic">
+              Önemli bilgileri her zaman ilgili kurumların kendi resmi web sitelerine giriş yaparak bizzat kontrol etmek kullanıcının asli sorumluluğundadır.
             </p>
           </div>
         </section>
 
         {/* Yasal Bağlantılar */}
-        <section className="px-2 pt-2 pb-10">
-          <p className="text-[12px] text-gray-500 font-medium leading-relaxed mb-6 italic text-center">
-            Bu çerçevede, sürekli güncellenen "Kullanım Şartları ve Koşulları" ve "Gizlilik Politikası" bölümleri incelenmelidir.
-          </p>
-          <div className="flex flex-col space-y-3">
+        <section className="px-2 pt-4 pb-12">
+          <div className="text-center mb-10">
+            <div className="w-12 h-1 bg-indigo-100 mx-auto mb-6 rounded-full"></div>
+            <p className="text-[14px] text-indigo-900/40 font-bold leading-relaxed italic max-w-xs mx-auto">
+              Sürekli güncellenen kullanım koşullarımızı ve gizlilik politikamızı incelemenizi tavsiye ederiz.
+            </p>
+          </div>
+          <div className="flex flex-col space-y-4">
             <button 
-              className="w-full py-4 bg-white border border-gray-200 rounded-2xl text-[13px] font-black text-indigo-950 uppercase tracking-widest active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-2"
+              className="w-full py-5 bg-white border border-indigo-50 rounded-2xl text-[14px] font-black text-indigo-950 uppercase tracking-[0.2em] active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-3 hover:bg-gray-50"
               onClick={() => window.open(legalUrls.terms, '_blank')}
             >
-              <span>Kullanım Şartları ve Koşulları</span>
-              <ExternalLink size={14} className="text-gray-400" />
+              <span>Kullanım Koşulları</span>
+              <ExternalLink size={16} className="text-indigo-400" />
             </button>
             <button 
-              className="w-full py-4 bg-white border border-gray-200 rounded-2xl text-[13px] font-black text-indigo-950 uppercase tracking-widest active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-2"
+              className="w-full py-5 bg-white border border-indigo-50 rounded-2xl text-[14px] font-black text-indigo-950 uppercase tracking-[0.2em] active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-3 hover:bg-gray-50"
               onClick={() => window.open(legalUrls.privacy, '_blank')}
             >
               <span>Gizlilik Politikası</span>
-              <ExternalLink size={14} className="text-gray-400" />
+              <ExternalLink size={16} className="text-indigo-400" />
             </button>
+          </div>
+          
+          <div className="mt-12 text-center">
+            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.4em]">Versiyon 2.0.0</p>
           </div>
         </section>
       </div>

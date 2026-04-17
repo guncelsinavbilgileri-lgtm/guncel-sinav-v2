@@ -12,7 +12,8 @@
     "deploy": "gh-pages -d dist",
     "mobile:build": "npm run build && npx cap copy",
     "mobile:android": "npx cap open android",
-    "mobile:ios": "npx cap open ios"
+    "mobile:ios": "npx cap open ios",
+    "assets:generate": "npx capacitor-assets generate"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.0",
@@ -37,6 +38,7 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "gh-pages": "^6.3.0",

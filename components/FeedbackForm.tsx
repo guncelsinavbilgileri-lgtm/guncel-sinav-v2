@@ -41,11 +41,11 @@ const FeedbackForm: React.FC = () => {
   if (isSubmitted) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh] px-8 animate-in fade-in zoom-in duration-500">
-        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-green-100">
-          <CheckCircle2 size={48} className="text-green-600" />
+        <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-indigo-100">
+          <CheckCircle2 size={48} className="text-indigo-600" />
         </div>
-        <h2 className="text-2xl font-black text-gray-900 mb-2 font-['Outfit']">Gönderildi!</h2>
-        <p className="text-gray-500 text-center font-bold">Desteğiniz için teşekkür ederiz.</p>
+        <h2 className="text-2xl font-[900] text-indigo-950 mb-2 font-['Outfit'] tracking-tight">GÖRÜŞÜNÜZ ALINDI</h2>
+        <p className="text-indigo-400 font-bold text-[14px] uppercase tracking-widest text-center">Desteğiniz için teşekkür ederiz.</p>
       </div>
     );
   }
@@ -65,16 +65,16 @@ const FeedbackForm: React.FC = () => {
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-10">
-          <div className="glass-card p-6 rounded-[2.5rem] shadow-sm border border-white/60">
-            <h3 className="text-indigo-400 text-[10px] font-black tracking-[0.2em] mb-4 uppercase">DEĞERLENDİRME</h3>
-            <p className="text-gray-800 text-lg font-black mb-6 font-['Outfit']">İçerik yeterli mi?</p>
-            <div className="space-y-3">
-              {['Yeni alanlar eklenmeli', 'Alanlar geliştirilmeli', 'Diğer'].map((option) => (
+          <div className="premium-card p-8 border-indigo-100/30">
+            <h3 className="text-indigo-400 text-[10px] font-black tracking-[0.3em] mb-4 uppercase">DENEYİMİNİZ</h3>
+            <p className="text-indigo-950 text-xl font-[900] mb-6 font-['Outfit'] tracking-tight">İçerik sizce yeterli mi?</p>
+            <div className="space-y-4">
+              {['Harika, Her Şey Mevcut', 'Geliştirilmeli', 'Yeni Alanlar Eklenmeli'].map((option) => (
                 <button 
                   key={option}
                   type="button"
                   onClick={() => setSufficiency(option)}
-                  className={`w-full p-4 rounded-2xl border-2 text-left font-bold transition-all ${sufficiency === option ? 'border-indigo-600 bg-indigo-50 text-indigo-950' : 'border-gray-100 bg-white/50 text-gray-400'}`}
+                  className={`w-full p-5 rounded-2xl border-2 text-left font-black transition-all text-sm uppercase tracking-wider ${sufficiency === option ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg shadow-indigo-100' : 'border-indigo-50 bg-white text-indigo-950 hover:bg-indigo-50/50'}`}
                 >
                   {option}
                 </button>
@@ -82,24 +82,24 @@ const FeedbackForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="glass-card p-6 rounded-[2.5rem] shadow-sm border border-white/60">
-            <h3 className="text-indigo-400 text-[10px] font-black tracking-[0.2em] mb-4 uppercase">MESAJINIZ</h3>
-            <p className="text-gray-800 text-lg font-black mb-4 font-['Outfit']">Eklemek istedikleriniz:</p>
+          <div className="premium-card p-8 border-indigo-100/30">
+            <h3 className="text-indigo-400 text-[10px] font-black tracking-[0.3em] mb-4 uppercase">MESAJINIZ</h3>
+            <p className="text-indigo-950 text-xl font-[900] mb-5 font-['Outfit'] tracking-tight">Eklemek istedikleriniz:</p>
             <textarea 
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Buraya yazabilirsiniz..."
-              className="w-full p-4 rounded-2xl border-2 border-gray-100 bg-white/50 text-gray-800 font-bold focus:border-indigo-600 focus:outline-none transition-all min-h-[120px] resize-none"
+              placeholder="Önerilerinizi buraya yazabilirsiniz..."
+              className="w-full p-5 rounded-3xl border border-indigo-50 bg-indigo-50/20 text-indigo-950 font-bold placeholder:text-indigo-200 focus:bg-white focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 focus:outline-none transition-all min-h-[160px] resize-none"
             />
           </div>
 
           <button 
             type="submit"
             disabled={isSubmitting || !sufficiency}
-            className={`w-full py-5 rounded-[2rem] text-lg font-black tracking-[0.2em] shadow-2xl active:scale-95 transition-all flex items-center justify-center space-x-3 ${isSubmitting || !sufficiency ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 text-white shadow-indigo-200'}`}
+            className={`w-full py-6 rounded-[2.5rem] text-lg font-black tracking-[0.2em] uppercase active:scale-95 transition-all flex items-center justify-center space-x-4 ${isSubmitting || !sufficiency ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-indigo-600 text-white shadow-[0_20px_40px_rgba(79,70,229,0.3)]'}`}
           >
-            <span>{isSubmitting ? 'GÖNDERİLİYOR...' : 'GÖNDER'}</span>
-            {!isSubmitting && <Send size={20} />}
+            <span>{isSubmitting ? 'GÖNDERİLİYOR' : 'GÖRÜŞÜ GÖNDER'}</span>
+            {!isSubmitting && <Send size={22} />}
           </button>
         </form>
       </div>

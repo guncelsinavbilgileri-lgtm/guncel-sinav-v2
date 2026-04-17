@@ -102,12 +102,12 @@ const App: React.FC = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 px-4 pb-3">
-        <div className="h-16 bg-[#2D2A26] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-around relative overflow-hidden ring-1 ring-white/10">
-          <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent pointer-events-none"></div>
+      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 px-5 pb-6">
+        <div className="h-20 bg-indigo-950/95 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(30,27,75,0.4)] flex items-center justify-around relative overflow-hidden border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/5 to-transparent pointer-events-none"></div>
           
           {[
-            { id: Tab.Home, icon: HomeIcon, label: 'GİRİŞ' },
+            { id: Tab.Home, icon: HomeIcon, label: 'ANA SAYFA' },
             { id: Tab.Form, icon: ClipboardList, label: 'FORM' },
             { id: Tab.Contact, icon: Mail, label: 'ULAŞIN' },
             { id: Tab.Info, icon: InfoIcon, label: 'BİLGİ' }
@@ -115,15 +115,17 @@ const App: React.FC = () => {
             <button 
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center flex-1 py-2 transition-all duration-500 relative ${activeTab === item.id ? 'text-white scale-110' : 'text-white/40 hover:text-white/60'}`}
+              className={`flex flex-col items-center justify-center flex-1 h-full transition-all duration-500 relative ${activeTab === item.id ? 'text-white' : 'text-white/30 hover:text-white/50'}`}
             >
-              {activeTab === item.id && (
-                <div className="absolute top-0 w-8 h-1 bg-indigo-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(129,140,248,0.8)]"></div>
-              )}
-              <item.icon size={22} className="mb-1.5" strokeWidth={activeTab === item.id ? 2.5 : 2} />
-              <span className={`text-[9px] font-black uppercase tracking-[0.15em] font-['Outfit']`}>
+              <div className={`transition-all duration-500 ${activeTab === item.id ? 'scale-110 -translate-y-1' : ''}`}>
+                <item.icon size={24} strokeWidth={activeTab === item.id ? 2.5 : 2} />
+              </div>
+              <span className={`text-[9px] font-black uppercase tracking-[0.2em] font-['Outfit'] mt-1.5 transition-all duration-500 ${activeTab === item.id ? 'opacity-100' : 'opacity-40'}`}>
                 {item.label}
               </span>
+              {activeTab === item.id && (
+                <div className="absolute bottom-2 w-1.5 h-1.5 bg-indigo-400 rounded-full shadow-[0_0_15px_rgba(129,140,248,1)]"></div>
+              )}
             </button>
           ))}
         </div>

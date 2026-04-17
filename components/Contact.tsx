@@ -30,7 +30,7 @@ const Contact: React.FC = () => {
 
         <button 
           onClick={handleEmailClick}
-          className="group w-full bg-[#2D2A26] text-white py-6 rounded-[2.5rem] flex items-center justify-center space-x-4 shadow-2xl active:scale-95 transition-all"
+          className="group w-full bg-indigo-950 text-white py-6 rounded-[2.5rem] flex items-center justify-center space-x-4 shadow-[0_20px_40px_rgba(30,27,75,0.3)] active:scale-95 transition-all ring-1 ring-white/10"
         >
           <span className="text-lg font-black tracking-[0.2em] uppercase">E-POSTA GÖNDER</span>
           <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />

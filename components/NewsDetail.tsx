@@ -21,75 +21,84 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ news, onBack }) => {
   };
 
   return (
-    <div className="absolute inset-0 bg-white z-[60] overflow-y-auto animate-in slide-in-from-right duration-300 shadow-2xl">
+    <div className="absolute inset-0 bg-white z-[60] overflow-y-auto animate-in slide-in-from-right duration-500 shadow-2xl">
       {/* Detail Header */}
-      <header className="sticky top-0 bg-white/95 backdrop-blur-md z-10 border-b border-gray-100 px-4 pt-[env(safe-area-inset-top,44px)] pb-4 flex items-center justify-between">
-        <button onClick={onBack} className="p-2 -ml-2 text-indigo-600 active:scale-90 transition-transform">
-          <ChevronLeft size={28} strokeWidth={2.5} />
+      <header className="sticky top-0 bg-white/95 backdrop-blur-xl z-10 px-5 pt-[env(safe-area-inset-top,44px)] pb-4 flex items-center justify-between">
+        <button onClick={onBack} className="p-3 -ml-3 bg-indigo-50 text-indigo-600 rounded-2xl active:scale-90 transition-all shadow-sm">
+          <ChevronLeft size={24} strokeWidth={3} />
         </button>
         <div className="flex items-center space-x-4">
           <button 
             onClick={handleShare}
-            className="p-2 text-indigo-600 active:scale-90 transition-transform"
+            className="p-3 bg-white border border-indigo-50 text-indigo-600 rounded-2xl active:scale-90 transition-all shadow-sm"
           >
-            <Share2 size={22} />
+            <Share2 size={20} />
           </button>
-          <div className="flex items-center bg-indigo-50 rounded-full px-3 py-1 space-x-3">
+          <div className="flex items-center bg-indigo-600 rounded-2xl p-1 shadow-lg shadow-indigo-100">
             <button 
               onClick={decreaseFontSize}
-              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+              className="w-10 h-10 text-white font-black text-sm flex items-center justify-center active:scale-90 transition-transform"
             >
-              A<Minus size={10} className="ml-0.5" />
+              A-
             </button>
-            <div className="w-px h-3 bg-indigo-200" />
+            <div className="w-px h-5 bg-white/20" />
             <button 
               onClick={increaseFontSize}
-              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+              className="w-10 h-10 text-white font-black text-base flex items-center justify-center active:scale-90 transition-transform"
             >
-              A<Plus size={10} className="ml-0.5" />
+              A+
             </button>
           </div>
         </div>
       </header>
 
       {/* Hero Image */}
-      <div className="w-full h-64 overflow-hidden">
+      <div className="w-full h-72 overflow-hidden relative">
         <img 
           src={news.imageUrl} 
           alt={news.title} 
           className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
       </div>
 
       {/* Content Container */}
-      <article className="px-6 py-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 leading-tight mb-4 font-['Outfit']">
-          {news.title}
-        </h1>
-
-        <div className="flex flex-col items-center justify-center text-center mb-8">
-          <p className="text-indigo-400 text-sm font-semibold mb-1">
-            Yazılma zamanı {news.date}
-          </p>
-          <p className="text-indigo-900 font-bold text-lg">
-            Bir Öğretmen
-          </p>
-          <div className="w-32 h-0.5 bg-indigo-100 mt-4" />
+      <article className="px-8 py-10">
+        <div className="mb-8">
+          <div className="flex items-center space-x-2 mb-4">
+            <div className="w-8 h-1 bg-indigo-600 rounded-full"></div>
+            <p className="text-indigo-400 text-[11px] font-black uppercase tracking-[0.3em]">Haber Detayı</p>
+          </div>
+          <h1 className="text-[32px] font-[900] text-indigo-950 leading-[1.1] mb-6 font-['Outfit'] tracking-tight">
+            {news.title}
+          </h1>
+          <div className="flex items-center space-x-4 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
+            <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-black">GSB</div>
+            <div>
+              <p className="text-indigo-950 font-black text-[14px]">Editör Masası</p>
+              <p className="text-indigo-400 text-[11px] font-bold uppercase tracking-wider">{news.date}</p>
+            </div>
+          </div>
         </div>
 
+        <div className="w-full h-px bg-gray-100 mb-10" />
+
         <div 
-          className="prose prose-indigo max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap"
+          className="prose prose-indigo max-w-none text-gray-800 leading-relaxed whitespace-pre-wrap font-medium opacity-90"
           style={{ fontSize: `${fontSize}px` }}
         >
           {news.content}
         </div>
       </article>
 
-      {/* Footer Navigation Dots Simulation */}
-      <div className="flex justify-center space-x-2 py-10">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className={`w-2 h-2 rounded-full ${i === 1 ? 'bg-indigo-400' : 'bg-indigo-100'}`} />
-        ))}
+      {/* Footer Decoration */}
+      <div className="flex flex-col items-center py-16 space-y-4 opacity-20">
+        <div className="flex space-x-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+          ))}
+        </div>
+        <p className="text-[9px] font-black text-indigo-950 uppercase tracking-[0.5em]">Son Bilgi</p>
       </div>
     </div>
   );

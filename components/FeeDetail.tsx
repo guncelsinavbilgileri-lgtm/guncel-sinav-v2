@@ -89,32 +89,32 @@ const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
   }
 
   return (
-    <div className="absolute inset-0 bg-white z-[65] overflow-y-auto animate-in slide-in-from-right duration-300 shadow-2xl">
+    <div className="absolute inset-0 bg-white z-[65] overflow-y-auto animate-in slide-in-from-right duration-500 shadow-2xl">
       {/* Header */}
-      <header className="sticky top-0 bg-white/95 backdrop-blur-md z-10 border-b border-gray-100 px-4 pt-[env(safe-area-inset-top,44px)] pb-4 flex items-center justify-between">
-        <button onClick={onBack} className="p-2 -ml-2 text-indigo-600 active:scale-90 transition-transform">
-          <ChevronLeft size={28} strokeWidth={2.5} />
+      <header className="sticky top-0 bg-white/95 backdrop-blur-xl z-10 px-5 pt-[env(safe-area-inset-top,44px)] pb-4 flex items-center justify-between">
+        <button onClick={onBack} className="p-3 -ml-3 bg-indigo-50 text-indigo-600 rounded-2xl active:scale-90 transition-all shadow-sm">
+          <ChevronLeft size={24} strokeWidth={3} />
         </button>
         <div className="flex items-center space-x-4">
           <button 
             onClick={handleShare}
-            className="p-2 text-indigo-600 active:scale-90 transition-transform"
+            className="p-3 bg-white border border-indigo-50 text-indigo-600 rounded-2xl active:scale-90 transition-all shadow-sm"
           >
-            <Share2 size={22} />
+            <Share2 size={20} />
           </button>
-          <div className="flex items-center bg-indigo-50 rounded-full px-3 py-1 space-x-3">
+          <div className="flex items-center bg-indigo-600 rounded-2xl p-1 shadow-lg shadow-indigo-100">
             <button 
               onClick={decreaseFontSize}
-              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+              className="w-10 h-10 text-white font-black text-sm flex items-center justify-center active:scale-90 transition-transform"
             >
-              A<Minus size={10} className="ml-0.5" />
+              A-
             </button>
-            <div className="w-px h-3 bg-indigo-200" />
+            <div className="w-px h-5 bg-white/20" />
             <button 
               onClick={increaseFontSize}
-              className="text-indigo-600 font-bold text-sm flex items-center active:scale-90 transition-transform"
+              className="w-10 h-10 text-white font-black text-base flex items-center justify-center active:scale-90 transition-transform"
             >
-              A<Plus size={10} className="ml-0.5" />
+              A+
             </button>
           </div>
         </div>
@@ -125,34 +125,44 @@ const FeeDetail: React.FC<FeeDetailProps> = ({ onBack, feeId = '1' }) => {
         <img 
           src={detail.imageUrl || "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=800&auto=format&fit=crop"} 
           alt={detail.title} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-90"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/20 to-transparent"></div>
       </div>
 
       {/* Content Container */}
-      <article className="px-5 py-8">
-        <h1 className="text-3xl font-extrabold text-gray-800 leading-tight mb-4 font-['Outfit'] text-center uppercase">
-          {detail.title}
-        </h1>
-
-        <div className="flex flex-col items-center justify-center text-center mb-6">
-          <p className="text-[#A0522D] text-base font-semibold">
-            Son Güncelleme: {detail.lastUpdate || (detail as any).lastupdate || 'Belirtilmedi'}
-          </p>
-          <div className="w-40 h-0.5 bg-gray-200 mt-4" />
-
-          <button 
-            onClick={handleShare}
-            className="mt-6 flex items-center space-x-2 bg-indigo-50 text-indigo-600 px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all border border-indigo-100"
-          >
-            <Share2 size={16} />
-            <span>Arkadaşınla Paylaş</span>
-          </button>
+      <article className="px-8 py-10">
+        <div className="mb-8">
+          <div className="flex items-center space-x-2 mb-4">
+            <div className="w-8 h-1 bg-green-500 rounded-full"></div>
+            <p className="text-green-600 text-[11px] font-black uppercase tracking-[0.3em]">Ücret Bilgileri</p>
+          </div>
+          <h1 className="text-[32px] font-[900] text-indigo-950 leading-[1.1] mb-6 font-['Outfit'] tracking-tight">
+            {detail.title}
+          </h1>
+          <div className="flex items-center justify-between p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-black">GSB</div>
+              <div>
+                <p className="text-indigo-950 font-black text-[13px]">Son Güncelleme</p>
+                <p className="text-indigo-400 text-[11px] font-bold uppercase tracking-wider">
+                  {detail.lastUpdate || (detail as any).lastupdate || 'Belirtilmedi'}
+                </p>
+              </div>
+            </div>
+            <button 
+              onClick={handleShare}
+              className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-xl font-black text-[10px] active:scale-95 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest"
+            >
+              <span>PAYLAŞ</span>
+            </button>
+          </div>
         </div>
 
+        <div className="w-full h-px bg-gray-100 mb-10" />
+
         <div 
-          className="markdown-body prose prose-indigo max-w-none text-gray-700"
+          className="markdown-body prose prose-indigo max-w-none text-gray-800 leading-relaxed font-medium opacity-90"
           style={{ fontSize: `${fontSize}px` }}
         >
           <ReactMarkdown remarkPlugins={[remarkGfm]}>

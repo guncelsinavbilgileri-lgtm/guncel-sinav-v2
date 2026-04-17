@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { NewsItem, ExamInfo } from '../types';
-import { Sparkles, AlertCircle, Share2, ChevronRight, Calendar, MousePointerClick, ExternalLink, GraduationCap, UserCheck, FileText, ClipboardList, ShieldCheck, Link as LinkIcon } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Sparkles, AlertCircle, Share2, ChevronRight, Calendar, Pointer, ExternalLink, GraduationCap, UserCheck, FileText, ClipboardList, ShieldCheck, Link as LinkIcon } from 'lucide-react';
 import { subscribeToNews } from '../services/newsService';
 import { auth } from '../firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
@@ -88,54 +89,68 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
   ];
 
   return (
-    <div className="flex flex-col space-y-1.5 animate-in fade-in duration-700 pb-4">
+    <div className="flex flex-col space-y-1 animate-in fade-in duration-700 pb-4">
       {/* Akademik Takvim & Sayaç Kutusu */}
       <section className="px-5 mt-4">
         <div className="premium-card p-6 border-indigo-100/50">
           <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-lg shadow-indigo-200">
+            <div className="flex items-center space-x-3 overflow-hidden">
+              <div className="p-2 bg-indigo-600 rounded-xl text-white shadow-lg shadow-indigo-200 shrink-0">
                 <Calendar size={18} />
               </div>
-              <h2 className="text-[17px] font-black text-indigo-950 uppercase tracking-tight">Akademik Takvim</h2>
+              <h2 className="text-[17px] font-black text-indigo-950 uppercase tracking-tight whitespace-nowrap">Akademik Takvim</h2>
             </div>
             <button 
               onClick={onAcademicCalendarClick}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-full text-[12px] font-black shadow-lg shadow-indigo-200 active:scale-95 transition-all flex items-center space-x-2"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-full text-[12px] font-black shadow-lg shadow-indigo-200 active:scale-95 transition-all flex items-center space-x-2 shrink-0"
             >
-              <span>2025-2026</span>
-              <MousePointerClick size={14} className="animate-bounce" />
+              <span className="whitespace-nowrap">2025-2026</span>
+              <Pointer size={14} className="animate-bounce" />
             </button>
           </div>
           
-          <div className="relative overflow-hidden h-20 rounded-3xl border border-blue-200/50 shadow-inner flex items-center justify-center bg-blue-400">
-            {/* Gerçekçi Arka Plan Resmi */}
+          <div className="relative overflow-hidden h-16 rounded-3xl border border-blue-200/50 shadow-inner flex items-center justify-center bg-blue-400">
+            {/* Canlı Arka Plan Resmi */}
             <img 
-              src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=1000&auto=format&fit=crop" 
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" 
               alt="Yaz Tatili" 
               referrerPolicy="no-referrer"
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.75]"
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.85] scale-105"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop';
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544735030-c567718eefbf?q=80&w=1000&auto=format&fit=crop';
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
 
             <div className="relative z-10 text-center w-full px-4">
-              <p className="text-white font-extrabold text-sm flex items-center justify-center gap-x-3 tracking-tight drop-shadow-xl">
-                <span className="drop-shadow-md">Yaz Tatiline</span>
-                <span className="text-4xl font-black text-yellow-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+              <p className="text-white font-extrabold text-[12px] flex items-center justify-center tracking-tight drop-shadow-xl">
+                YAZ TATİLİNE
+                <span className="text-3xl font-black text-yellow-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] mx-2">
                   {daysLeft}
                 </span>
-                <span className="drop-shadow-md">Gün Kaldı</span>
+                GÜN KALDI
+                <motion.span 
+                  className="inline-block ml-4 text-xl"
+                  animate={{ 
+                    rotate: [0, 15, -15, 15, 0],
+                    scale: [1, 1.2, 1, 1.2, 1]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  😊
+                </motion.span>
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-5 mt-6">
-        <div className="flex items-center justify-between mb-4">
+      <section className="px-5 mt-10">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600 shadow-sm">
               <Sparkles size={18} />
@@ -144,7 +159,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
           </div>
         </div>
         
-        <div className="flex overflow-x-auto space-x-4 pb-6 scrollbar-hide snap-x px-1">
+        <div className="flex overflow-x-auto space-x-4 pb-2 scrollbar-hide snap-x px-1">
           {displayNews.length === 0 && (
             <div className="w-full py-12 text-center text-gray-400 font-medium italic premium-card">
               Henüz haber bulunmuyor...
@@ -184,26 +199,26 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
       </section>
 
       {/* Hızlı Bağlantılar */}
-      <section className="px-5 mt-4">
-        <div className="flex items-center space-x-3 mb-4">
+      <section className="px-5 mt-10">
+        <div className="flex items-center space-x-3 mb-2">
           <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
             <LinkIcon size={18} />
           </div>
           <h2 className="text-xl font-black text-indigo-950 title-font tracking-tight uppercase">Hızlı Bağlantılar</h2>
         </div>
         
-        <div className="grid grid-cols-3 gap-4 pb-6">
+        <div className="flex overflow-x-auto space-x-4 pb-2 scrollbar-hide snap-x px-1">
           {quickLinks.map((link, idx) => (
             <button 
               key={idx}
               onClick={() => openLink(link.url)}
-              className="flex flex-col items-center p-3 premium-card active:scale-90 transition-all border-none bg-white hover:bg-indigo-50/30"
+              className="flex flex-col items-center p-3 premium-card active:scale-90 transition-all border-none bg-white hover:bg-indigo-50/30 min-w-[100px] snap-start"
               style={{ borderRadius: '1.5rem', boxShadow: '0 8px 30px rgba(79, 70, 229, 0.05)' }}
             >
-              <div className={`w-12 h-12 ${link.color} rounded-2xl shadow-lg flex items-center justify-center text-white relative mb-2.5`}>
-                <link.icon size={24} />
+              <div className={`w-10 h-10 ${link.color} rounded-2xl shadow-lg flex items-center justify-center text-white relative mb-2`}>
+                <link.icon size={20} />
                 <div className="absolute -top-1 -right-1 bg-white rounded-full p-1 shadow-md text-gray-400">
-                  <ExternalLink size={10} />
+                  <ExternalLink size={8} />
                 </div>
               </div>
               <span className="text-[10px] font-black text-indigo-950 uppercase tracking-tighter text-center leading-tight">
@@ -214,7 +229,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         </div>
       </section>
 
-      <section className="px-5 space-y-5">
+      <section className="px-5 space-y-5 pt-8">
         {heroExams.map((info) => (
           <div 
             key={info.id} 
@@ -251,39 +266,25 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         ))}
       </section>
 
-      <section className="mx-5 mt-6">
+      <section className="mx-5 mt-10 mb-12">
         <button 
           onClick={handleShare}
-          className="w-full p-7 bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-[2.5rem] shadow-2xl flex items-center justify-between group active:scale-95 transition-all overflow-hidden relative"
+          className="w-full p-5 bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-[2rem] shadow-xl flex items-center justify-between group active:scale-95 transition-all overflow-hidden relative"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="flex items-center space-x-5 relative z-10">
-            <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl text-white border border-white/20">
-              <Share2 size={26} />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -translate-y-12 translate-x-12"></div>
+          <div className="flex items-center space-x-4 relative z-10">
+            <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl text-white border border-white/20">
+              <Share2 size={24} />
             </div>
             <div className="text-left">
-              <h4 className="text-white font-[900] text-xl font-['Outfit'] leading-tight tracking-tight">Arkadaşlarınla Paylaş</h4>
-              <p className="text-indigo-100 text-[13px] font-bold opacity-80 mt-1">Öğretmen dostlarına tavsiye edebilirsin</p>
+              <h4 className="text-white font-[900] text-lg font-['Outfit'] leading-tight tracking-tight">Arkadaşlarınla Paylaş</h4>
+              <p className="text-indigo-100 text-[11px] font-bold opacity-80 mt-0.5">Hemen tavsiye et!</p>
             </div>
           </div>
-          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white group-hover:bg-white/30 transition-colors relative z-10">
-            <ChevronRight size={24} />
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white group-hover:bg-white/30 transition-colors relative z-10">
+            <ChevronRight size={20} />
           </div>
         </button>
-      </section>
-
-      <section className="mx-5 p-8 glass-card rounded-[3rem] shadow-sm border border-white/60 mb-12 mt-6">
-        <div className="flex items-start space-x-5">
-          <div className="p-3 bg-indigo-600 rounded-[1.2rem] text-white shadow-xl shadow-indigo-100">
-            <AlertCircle size={20} />
-          </div>
-          <div>
-            <h4 className="text-[12px] font-black text-indigo-950 uppercase tracking-widest mb-2">Resmi Bilgilendirme</h4>
-            <p className="text-[12px] text-gray-500 leading-relaxed font-bold opacity-80">
-              Bu uygulama bir rehber niteliğindedir. Kesin ve en güncel bilgi için lütfen ilgili kurumların resmi web sitelerini düzenli olarak ziyaret ediniz.
-            </p>
-          </div>
-        </div>
       </section>
     </div>
   );

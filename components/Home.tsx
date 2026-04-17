@@ -123,7 +123,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
 
             <div className="relative z-10 text-center w-full px-4">
-              <p className="text-white font-extrabold text-[12px] flex items-center justify-center tracking-tight drop-shadow-xl">
+              <p className="text-white font-extrabold text-[15px] flex items-center justify-center tracking-tight drop-shadow-xl">
                 YAZ TATİLİNE
                 <span className="text-3xl font-black text-yellow-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] mx-2">
                   {daysLeft}

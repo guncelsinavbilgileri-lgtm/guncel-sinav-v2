@@ -9,7 +9,7 @@ const Contact: React.FC = () => {
 
   return (
     <div className="pb-28 animate-in fade-in duration-500">
-      <div className="premium-header apple-blur pt-12 pb-6 text-center border-b border-indigo-50 shadow-sm sticky top-0 z-30">
+      <div className="premium-header apple-blur pt-[env(safe-area-inset-top,44px)] pb-6 text-center border-b border-indigo-50 shadow-sm sticky top-0 z-30">
         <h1 className="title-font text-[22px] font-[900] tracking-tighter text-gradient uppercase leading-none">
           Bize Ulaşın
         </h1>

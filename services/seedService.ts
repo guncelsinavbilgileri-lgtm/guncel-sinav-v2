@@ -1,7 +1,10 @@
 import { setNewsItem, clearNews } from './newsService';
 import { addExamDetail, addFeeDetail, addHowToApply, addAcademicCalendar } from './examService';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export const seedDatabase = async () => {
+  console.log("Starting seed process...");
   try {
     const initialNews = [
       {
@@ -24,11 +27,13 @@ export const seedDatabase = async () => {
       }
     ];
 
+    console.log("Seeding news...");
     for (const item of initialNews) {
       const { id, ...newsData } = item;
       await setNewsItem(newsData, id);
     }
 
+    console.log("Seeding exam details...");
     const initialExamDetail = {
       title: 'Güncel Sınavlar',
       lastUpdate: '11/04/2026',
@@ -46,9 +51,9 @@ Toplam 3 oturum görevi vardır.
 `,
       imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'
     };
-
     await addExamDetail(initialExamDetail, '1');
 
+    console.log("Seeding fee details...");
     const initialFeeDetail = {
       title: 'Sınav Ücretleri',
       lastUpdate: '11/04/2026',
@@ -70,9 +75,9 @@ Hesaplara yatan net ücretler; vergi dilimi ve kesintilere göre değişiklik g�
 `,
       imageUrl: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=800&auto=format&fit=crop'
     };
-
     await addFeeDetail(initialFeeDetail, '1');
 
+    console.log("Seeding how to apply...");
     const initialHowToApply = {
       title: 'Nasıl Başvurulur?',
       lastUpdate: '11/04/2026',
@@ -99,9 +104,9 @@ Sınav görevlerine başvurmak için aşağıdaki adımları takip edebilirsiniz
 `,
       imageUrl: 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=800'
     };
-
     await addHowToApply(initialHowToApply, '1');
 
+    console.log("Seeding academic calendar...");
     const initialCalendar = {
       title: '2025-2026 Akademik Takvim',
       lastUpdate: '11/04/2026',
@@ -124,12 +129,21 @@ Milli Eğitim Bakanlığı tarafından açıklanan resmi takvim bilgileridir:
 `,
       imageUrl: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=800'
     };
-
     await addAcademicCalendar(initialCalendar, '1');
 
+    console.log("Seeding app settings...");
+    await setDoc(doc(db, 'settings', 'app_config'), {
+      shareUrl: 'https://onelink.to/guncelsinav',
+      privacyUrl: 'https://guncelsinav.com/privacy',
+      termsUrl: 'https://guncelsinav.com/terms',
+      updatedAt: serverTimestamp()
+    });
+
+    console.log("Seed process completed successfully.");
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Seed error:", error);
-    return false;
+    // Hatayı yukarı fırlatalım ki Info.tsx yakalayabilsin
+    throw error;
   }
 };

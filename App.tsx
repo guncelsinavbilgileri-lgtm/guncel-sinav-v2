@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Tab, NewsItem } from './types';
 import Home from './components/Home';
 import NewsDetail from './components/NewsDetail';
@@ -11,21 +11,16 @@ import FeedbackForm from './components/FeedbackForm';
 import Contact from './components/Contact';
 import Info from './components/Info';
 import SplashScreen from './components/SplashScreen';
-import { initializePushNotifications } from './services/notificationService';
 import { Home as HomeIcon, ClipboardList, Mail, Info as InfoIcon } from 'lucide-react';
 
 const App: React.FC = () => {
+  const [isSplashComplete, setIsSplashComplete] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>(Tab.Home);
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [showExamDetail, setShowExamDetail] = useState(false);
   const [showFeeDetail, setShowFeeDetail] = useState(false);
   const [showHowToApply, setShowHowToApply] = useState(false);
   const [showAcademicCalendar, setShowAcademicCalendar] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    initializePushNotifications();
-  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -60,18 +55,24 @@ const App: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto min-h-screen relative flex flex-col overflow-hidden bg-[#F8FAFF]">
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+      {!isSplashComplete && <SplashScreen onComplete={() => setIsSplashComplete(true)} />}
       
       {/* Detail Overlays */}
-      {selectedNews && <NewsDetail news={selectedNews} onBack={() => setSelectedNews(null)} />}
-      {showExamDetail && <ExamDetail onBack={() => setShowExamDetail(false)} />}
-      {showFeeDetail && <FeeDetail onBack={() => setShowFeeDetail(false)} />}
-      {showHowToApply && <HowToApplyDetail onBack={() => setShowHowToApply(false)} />}
-      {showAcademicCalendar && <AcademicCalendarDetail onBack={() => setShowAcademicCalendar(false)} />}
+      {(selectedNews || showExamDetail || showFeeDetail || showHowToApply || showAcademicCalendar) && (
+        <div className="fixed inset-x-0 top-0 bottom-0 max-w-md mx-auto z-[60] bg-[#F8FAFF]">
+          <div className="relative w-full h-full">
+            {selectedNews && <NewsDetail news={selectedNews} onBack={() => setSelectedNews(null)} />}
+            {showExamDetail && <ExamDetail onBack={() => setShowExamDetail(false)} />}
+            {showFeeDetail && <FeeDetail onBack={() => setShowFeeDetail(false)} />}
+            {showHowToApply && <HowToApplyDetail onBack={() => setShowHowToApply(false)} />}
+            {showAcademicCalendar && <AcademicCalendarDetail onBack={() => setShowAcademicCalendar(false)} />}
+          </div>
+        </div>
+      )}
 
       {/* Premium Global Header */}
       {activeTab === Tab.Home && (
-        <header className="sticky top-0 z-50 premium-header apple-blur px-5 pt-3 pb-3 shadow-sm border-b border-indigo-50">
+        <header className="sticky top-0 z-50 premium-header apple-blur px-5 pt-[env(safe-area-inset-top,44px)] pb-3 shadow-sm border-b border-indigo-50">
           <div className="flex items-center space-x-4">
             <div className="relative group shrink-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
@@ -100,7 +101,7 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
 
-      {/* High-End Bottom Navigation */}
+      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-50 px-4 pb-3">
         <div className="h-16 bg-[#2D2A26] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center justify-around relative overflow-hidden ring-1 ring-white/10">
           <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent pointer-events-none"></div>

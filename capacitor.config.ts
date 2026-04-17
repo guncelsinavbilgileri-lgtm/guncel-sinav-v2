@@ -1,11 +1,13 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'guncel.sinav.bilgileri',
+  appId: 'com.deneme5',
   appName: 'Güncel Sınav Bilgileri',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    allowNavigation: ['*'],
+    cleartext: true
   }
 };
 

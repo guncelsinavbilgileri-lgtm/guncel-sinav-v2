@@ -16,16 +16,23 @@ const FeedbackForm: React.FC = () => {
     
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, 'feedback'), {
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout')), 8000)
+      );
+      
+      const addDocPromise = addDoc(collection(db, 'feedback'), {
         sufficiency,
         note,
         timestamp: serverTimestamp()
       });
+
+      await Promise.race([addDocPromise, timeoutPromise]);
+      
       setIsSubmitted(true);
       setTimeout(() => setIsSubmitted(false), 3000);
     } catch (error) {
       console.error("Feedback error:", error);
-      alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+      alert("Gönderim sırasında bir sorun oluştu. İnternet bağlantınızı kontrol edip tekrar deneyiniz.");
     } finally {
       setIsSubmitting(false);
     }
@@ -45,7 +52,7 @@ const FeedbackForm: React.FC = () => {
 
   return (
     <div className="pb-28 animate-in fade-in duration-500">
-      <div className="premium-header apple-blur pt-12 pb-6 text-center border-b border-indigo-50 shadow-sm sticky top-0 z-30">
+      <div className="premium-header apple-blur pt-[env(safe-area-inset-top,44px)] pb-6 text-center border-b border-indigo-50 shadow-sm sticky top-0 z-30">
         <h1 className="title-font text-[22px] font-[900] tracking-tighter text-gradient uppercase leading-none">
           Görüş Bildir
         </h1>

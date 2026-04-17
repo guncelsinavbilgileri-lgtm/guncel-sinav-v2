@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { NewsItem, ExamInfo } from '../types';
-import { Sparkles, AlertCircle, Database, Share2, ChevronRight, Calendar, MousePointerClick, ExternalLink, GraduationCap, UserCheck, FileText, ClipboardList, ShieldCheck, Link as LinkIcon } from 'lucide-react';
-import { subscribeToNews, addNewsItem, testConnection } from '../services/newsService';
-import { seedDatabase } from '../services/seedService';
+import { Sparkles, AlertCircle, Share2, ChevronRight, Calendar, MousePointerClick, ExternalLink, GraduationCap, UserCheck, FileText, ClipboardList, ShieldCheck, Link as LinkIcon } from 'lucide-react';
+import { subscribeToNews } from '../services/newsService';
 import { auth } from '../firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { handleShare } from '../lib/share';
+import { Browser } from '@capacitor/browser';
 
 interface HomeProps {
   onNewsClick: (news: NewsItem) => void;
@@ -21,7 +21,6 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    testConnection();
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
@@ -35,14 +34,6 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
       unsubscribeNews();
     };
   }, []);
-
-  const isAdmin = user?.email === 'guncelsinavbilgileri@gmail.com';
-
-  const handleSeed = async () => {
-    const success = await seedDatabase();
-    if (success) alert('Veritabanı başarıyla güncellendi!');
-    else alert('Bir hata oluştu.');
-  };
 
   const heroExams: ExamInfo[] = [
     {
@@ -77,6 +68,16 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
 
   const daysLeft = calculateDaysLeft();
 
+  const openLink = async (url: string) => {
+    try {
+      console.log('Opening link:', url);
+      await Browser.open({ url });
+    } catch (error) {
+      console.error('Browser error:', error);
+      window.open(url, '_blank');
+    }
+  };
+
   const quickLinks = [
     { title: 'MEBBİS', url: 'https://mebbis.meb.gov.tr/', icon: UserCheck, color: 'bg-blue-500' },
     { title: 'e-Okul', url: 'https://e-okul.meb.gov.tr/', icon: GraduationCap, color: 'bg-orange-500' },
@@ -107,7 +108,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
             </button>
           </div>
           
-          <div className="relative overflow-hidden h-24 rounded-[1.5rem] border border-blue-200 shadow-md flex items-center justify-center bg-blue-400">
+          <div className="relative overflow-hidden h-16 rounded-[1.5rem] border border-blue-200 shadow-sm flex items-center justify-center bg-blue-400">
             {/* Gerçekçi Arka Plan Resmi - Daha Aydınlık ve Güvenilir Link */}
             <img 
               src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=1000&auto=format&fit=crop" 
@@ -121,9 +122,9 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
 
             <div className="relative z-10 text-center w-full px-4">
-              <p className="text-white font-extrabold text-base flex items-center justify-center gap-x-2 tracking-tight drop-shadow-lg">
+              <p className="text-white font-extrabold text-sm flex items-center justify-center gap-x-2 tracking-tight drop-shadow-lg">
                 <span className="drop-shadow-md">Yaz Tatiline</span>
-                <span className="text-4xl font-black text-yellow-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+                <span className="text-3xl font-black text-yellow-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
                   {daysLeft}
                 </span>
                 <span className="drop-shadow-md">Gün Kaldı :)</span>
@@ -192,12 +193,10 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         
         <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide snap-x">
           {quickLinks.map((link, idx) => (
-            <a 
+            <button 
               key={idx}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center space-y-2 min-w-[75px] snap-start active:scale-90 transition-transform"
+              onClick={() => openLink(link.url)}
+              className="flex flex-col items-center space-y-2 min-w-[75px] snap-start active:scale-90 transition-transform cursor-pointer"
             >
               <div className={`w-14 h-14 ${link.color} rounded-2xl shadow-lg flex items-center justify-center text-white relative group`}>
                 <link.icon size={28} />
@@ -208,7 +207,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
               <span className="text-[11px] font-black text-gray-700 uppercase tracking-tighter text-center leading-tight">
                 {link.title}
               </span>
-            </a>
+            </button>
           ))}
         </div>
       </section>

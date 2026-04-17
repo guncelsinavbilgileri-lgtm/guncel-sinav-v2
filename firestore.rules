@@ -12,10 +12,9 @@
 //
 // Collection: feedback
 // Fields:
-//   - name: string (required)
-//   - email: string (required)
-//   - message: string (required)
-//   - timestamp: string (required)
+//   - sufficiency: string (required)
+//   - note: string (optional)
+//   - timestamp: timestamp (required)
 //
 // ===============================================================
 
@@ -30,13 +29,14 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && 
-        (request.auth.token.email == "guncelsinavbilgileri@gmail.com" && request.auth.token.email_verified == true);
+        request.auth.token.email == "guncelsinavbilgileri@gmail.com" && 
+        request.auth.token.email_verified == true;
     }
 
     // News Collection
     match /news/{newsId} {
-      allow read: if true; // Publicly readable for the app
-      allow write: if isAdmin(); // Only admin can update news
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Feedback Collection
@@ -47,26 +47,32 @@ service cloud.firestore {
 
     // Exam Details Collection
     match /exam_details/{detailId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin(); // Only admin can update
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Fee Details Collection
     match /fee_details/{detailId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin(); // Only admin can update
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // How to Apply Collection
     match /how_to_apply/{detailId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin(); // Only admin can update
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Academic Calendar Collection
     match /academic_calendar/{detailId} {
-      allow read: if true; // Publicly readable
-      allow write: if isAdmin(); // Only admin can update
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Settings Collection
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // FCM Tokens Collection

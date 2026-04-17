@@ -10,9 +10,9 @@ interface NewsDetailProps {
 
 const NewsDetail: React.FC<NewsDetailProps> = ({ news, onBack }) => {
   return (
-    <div className="fixed inset-0 bg-white z-[60] overflow-y-auto animate-in slide-in-from-right duration-300 max-w-md mx-auto shadow-2xl">
+    <div className="absolute inset-0 bg-white z-[60] overflow-y-auto animate-in slide-in-from-right duration-300 shadow-2xl">
       {/* Detail Header */}
-      <header className="sticky top-0 bg-white/95 backdrop-blur-md z-10 border-b border-gray-100 px-4 py-4 flex items-center justify-between">
+      <header className="sticky top-0 bg-white/95 backdrop-blur-md z-10 border-b border-gray-100 px-4 pt-[env(safe-area-inset-top,44px)] pb-4 flex items-center justify-between">
         <button onClick={onBack} className="p-2 -ml-2 text-indigo-600 active:scale-90 transition-transform">
           <ChevronLeft size={28} strokeWidth={2.5} />
         </button>

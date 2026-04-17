@@ -1,5 +1,22 @@
-import { collection, onSnapshot, query, orderBy, addDoc, serverTimestamp, getDocFromServer, doc, setDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import { 
+  collection, 
+  onSnapshot, 
+  query, 
+  orderBy, 
+  addDoc, 
+  serverTimestamp, 
+  getDocFromServer, 
+  getDocsFromServer, 
+  doc, 
+  setDoc, 
+  getDocs, 
+  deleteDoc, 
+  limit,
+  getFirestore,
+  terminate
+} from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import firebaseConfig from '../firebase-applet-config.json';
 import { NewsItem } from '../types';
 
 const NEWS_COLLECTION = 'news';
@@ -102,12 +119,80 @@ export const clearNews = async () => {
   }
 };
 
+import { signInAnonymously } from 'firebase/auth';
+
 export const testConnection = async () => {
+  let internetStatus = "Kontrol ediliyor...";
+  let domainStatus = "Bekliyor...";
+  let restStatus = "Bekliyor...";
+  let authStatus = "Bekliyor...";
+  
   try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
+    // 1. Genel internet kontrolü
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      await fetch('https://8.8.8.8', { mode: 'no-cors', signal: controller.signal });
+      clearTimeout(timeoutId);
+      internetStatus = "OK";
+    } catch (e) {
+      internetStatus = "HATA";
     }
+
+    // 2. Domain Kontrolü
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      await fetch(`https://${firebaseConfig.authDomain}`, { mode: 'no-cors', signal: controller.signal });
+      clearTimeout(timeoutId);
+      domainStatus = "OK";
+    } catch (e) {
+      domainStatus = "ENGEL";
+    }
+
+    // 3. REST API Testi (SDK'sız direkt bağlantı)
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ returnSecureToken: true }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      restStatus = res.ok ? "OK" : `HATA (${res.status})`;
+    } catch (e) {
+      restStatus = "ZAMAN AŞIMI";
+    }
+
+    // 4. Auth SDK Testi
+    try {
+      const authPromise = signInAnonymously(auth);
+      const authTimeout = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Zaman Aşımı')), 15000)
+      );
+      await Promise.race([authPromise, authTimeout]);
+      authStatus = "OK";
+    } catch (e: any) {
+      authStatus = `HATA (${e.code || 'Timeout'})`;
+    }
+
+    // 5. DB Testi
+    const newsCollection = collection(db, 'news');
+    const q = query(newsCollection, limit(1));
+    const fetchPromise = getDocsFromServer(q);
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Zaman Aşımı')), 15000)
+    );
+    await Promise.race([fetchPromise, timeoutPromise]);
+    
+    return { success: true, message: `Bağlantı Başarılı! (İnt: ${internetStatus}, Rest: ${restStatus}, Auth: ${authStatus})` };
+  } catch (error: any) {
+    return { 
+      success: false, 
+      message: `İnt: ${internetStatus} | Dom: ${domainStatus} | Rest: ${restStatus} | Auth: ${authStatus} | DB: ${error.message}`,
+      code: error.code || 'N/A'
+    };
   }
 };

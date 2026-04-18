@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <canvas id="iconCanvas" width="512" height="512" style="display:none;"></canvas>
+    <canvas id="featureCanvas" width="1024" height="500" style="display:none;"></canvas>
+    <script>
+        function drawIcon() {
+            const canvas = document.getElementById('iconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            const grad = ctx.createLinearGradient(0, 0, 512, 512);
+            grad.addColorStop(0, '#4F46E5'); // indigo-600
+            grad.addColorStop(1, '#818CF8'); // indigo-400
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 512, 512);
+            
+            // Books Shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            ctx.shadowBlur = 30;
+            ctx.shadowOffsetY = 15;
+            
+            // Draw Books (Simplified version of the SVG in App.tsx)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath(); ctx.roundRect(80, 320, 352, 80, 32); ctx.fill(); // Bottom
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.save();
+            ctx.translate(256, 256);
+            ctx.rotate(2 * Math.PI / 180);
+            ctx.beginPath(); ctx.roundRect(-165, -30, 330, 80, 32); ctx.fill(); // Middle
+            ctx.restore();
+            
+            ctx.fillStyle = 'white';
+            ctx.save();
+            ctx.translate(235, 160);
+            ctx.rotate(-4 * Math.PI / 180);
+            ctx.beginPath(); ctx.roundRect(-154, -40, 308, 80, 32); ctx.fill(); // Top
+            ctx.restore();
+            
+            return canvas.toDataURL('image/png');
+        }
+
+        function drawFeature() {
+            const canvas = document.getElementById('featureCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            const grad = ctx.createLinearGradient(0, 0, 1024, 500);
+            grad.addColorStop(0, '#312E81'); // indigo-900
+            grad.addColorStop(1, '#4F46E5'); // indigo-600
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1024, 500);
+            
+            // Accent Circles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.beginPath(); ctx.arc(900, 100, 200, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(100, 400, 150, 0, Math.PI * 2); ctx.fill();
+            
+            // Text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 64px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('GÜNCEL SINAV BİLGİLERİ', 512, 400);
+            ctx.font = '300 24px sans-serif';
+            ctx.fillText('ÖĞRETMEN REHBERİ', 512, 440);
+            
+            // Books (Smaller version)
+            ctx.save();
+            ctx.translate(512, 200);
+            ctx.scale(0.6, 0.6);
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.beginPath(); ctx.roundRect(-176, 64, 352, 80, 32); ctx.fill();
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.save();
+            ctx.rotate(2 * Math.PI / 180);
+            ctx.beginPath(); ctx.roundRect(-165, -40, 330, 80, 32); ctx.fill();
+            ctx.restore();
+            
+            ctx.fillStyle = 'white';
+            ctx.save();
+            ctx.translate(-21, -96);
+            ctx.rotate(-4 * Math.PI / 180);
+            ctx.beginPath(); ctx.roundRect(-154, -40, 308, 80, 32); ctx.fill();
+            ctx.restore();
+            
+            ctx.restore();
+            
+            return canvas.toDataURL('image/png');
+        }
+
+        // Output results to console for the agent to grab if needed, or just let user download
+        window.onload = () => {
+             const iconData = drawIcon();
+             const featureData = drawFeature();
+             
+             const container = document.createElement('div');
+             container.style.padding = '50px';
+             container.style.fontFamily = 'sans-serif';
+             container.innerHTML = `
+                <h1>Google Play Assets Generator</h1>
+                <p>Aşağıdaki resimlere sağ tıklayıp "Resmi Farklı Kaydet" diyerek bilgisayarınıza indirin.</p>
+                
+                <div style="margin-bottom: 40px;">
+                    <h3>1. App Icon (512x512)</h3>
+                    <img src="${iconData}" style="width: 256px; border: 1px solid #ccc;" />
+                    <br><br>
+                    <a href="${iconData}" download="google-play-icon.png" style="background: #4F46E5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px;">İkonu İndir</a>
+                </div>
+                
+                <div>
+                    <h3>2. Feature Graphic (1024x500)</h3>
+                    <img src="${featureData}" style="width: 512px; border: 1px solid #ccc;" />
+                    <br><br>
+                    <a href="${featureData}" download="feature-graphic.png" style="background: #4F46E5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px;">Görseli İndir</a>
+                </div>
+             `;
+             document.body.appendChild(container);
+        };
+    </script>
+</body>
+</html>

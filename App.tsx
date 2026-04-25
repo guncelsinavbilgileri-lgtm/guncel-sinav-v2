@@ -28,6 +28,7 @@ const App: React.FC = () => {
         return (
           <Home 
             onNewsClick={(news) => setSelectedNews(news)} 
+            onContactClick={() => setActiveTab(Tab.Contact)}
             onExamClick={() => setShowExamDetail(true)}
             onFeeClick={() => setShowFeeDetail(true)}
             onHowToApplyClick={() => setShowHowToApply(true)}
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         return (
           <Home 
             onNewsClick={(news) => setSelectedNews(news)} 
+            onContactClick={() => setActiveTab(Tab.Contact)}
             onExamClick={() => setShowExamDetail(true)} 
             onFeeClick={() => setShowFeeDetail(true)} 
             onHowToApplyClick={() => setShowHowToApply(true)}

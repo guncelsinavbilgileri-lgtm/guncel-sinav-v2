@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { ChevronLeft, Share2, Minus, Plus, Loader2, Construction, TriangleAlert } from 'lucide-react';
+import { ChevronLeft, Share2, Minus, Plus, Loader2, Construction, TriangleAlert, Newspaper } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getExamDetailById, ExamDetailData } from '../services/examService';
@@ -142,9 +142,11 @@ const ExamDetail: React.FC<ExamDetailProps> = ({ onBack, examId = '1' }) => {
           </h1>
           <div className="flex items-center justify-between p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-black">GSB</div>
+              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                <Newspaper size={20} />
+              </div>
               <div>
-                <p className="text-indigo-950 font-black text-[13px]">Son Güncelleme</p>
+                <p className="text-indigo-950 font-black text-[13px]">Haber Masası</p>
                 <p className="text-indigo-400 text-[11px] font-bold uppercase tracking-wider">
                   {detail.lastUpdate || (detail as any).lastupdate || 'Belirtilmedi'}
                 </p>
@@ -170,6 +172,19 @@ const ExamDetail: React.FC<ExamDetailProps> = ({ onBack, examId = '1' }) => {
           </ReactMarkdown>
         </div>
       </article>
+
+      {/* Resource Box for Compliance */}
+      <div className="px-8 mt-4">
+        <div className="p-4 bg-gray-50/50 rounded-xl border border-gray-100 italic">
+          <p className="text-[10px] text-gray-400 font-black mb-1 uppercase tracking-widest">Kaynak & Yayın Bilgisi</p>
+          <p className="text-[11px] text-indigo-950/60 font-bold leading-tight mb-2">
+            Veriler resmi kurumların (ÖSYM, MEB veya Üniversite) duyurularından derlenmiştir.
+          </p>
+          <p className="text-[9px] text-indigo-300 font-black uppercase tracking-tighter">
+            Yayıncı: Güncel Sınav Bilgileri | Editör: M.K.
+          </p>
+        </div>
+      </div>
 
       <div className="h-20" />
     </div>

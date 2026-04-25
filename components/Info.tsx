@@ -9,8 +9,8 @@ const Info: React.FC = () => {
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [legalUrls, setLegalUrls] = useState({
-    privacy: 'https://guncelsinav.com/privacy',
-    terms: 'https://guncelsinav.com/terms'
+    privacy: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/privacy.html',
+    terms: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/terms.html'
   });
 
   useEffect(() => {
@@ -18,8 +18,8 @@ const Info: React.FC = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setLegalUrls({
-          privacy: data.privacyUrl || 'https://guncelsinav.com/privacy',
-          terms: data.termsUrl || 'https://guncelsinav.com/terms'
+          privacy: data.privacyUrl || 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/privacy.html',
+          terms: data.termsUrl || 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/terms.html'
         });
       }
     });
@@ -71,25 +71,116 @@ const Info: React.FC = () => {
 
       <div className="px-6 py-10 max-w-md mx-auto space-y-10">
         
-        {/* Uygulama Hakkında */}
+        {/* Künye / Masthead Section - CRITICAL for Google News */}
         <section className="premium-card p-8 border-indigo-100/30">
           <div className="flex items-center space-x-4 mb-6">
-            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+            <div className="p-3 bg-indigo-950 rounded-2xl text-white shadow-xl shadow-indigo-100">
               <InfoIcon size={24} />
             </div>
-            <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight">
-              Uygulama Hakkında
+            <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight uppercase">
+              Künye (Masthead)
             </h2>
+          </div>
+          
+          <div className="space-y-4 p-5 bg-indigo-50/30 rounded-2xl border border-indigo-100">
+            <div className="flex flex-col space-y-3">
+              <div className="pb-3 border-b border-indigo-100/50">
+                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Uygulama Sahibi & Yayıncı</p>
+                <p className="text-sm font-black text-indigo-950">Güncel Sınav Bilgileri</p>
+              </div>
+              
+              <div className="pb-3 border-b border-indigo-100/50">
+                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Genel Yayın Yönetmeni & Editör</p>
+                <p className="text-sm font-black text-indigo-950">Güncel Sınav Bilgileri</p>
+              </div>
+
+              <div className="pb-3 border-b border-indigo-100/50">
+                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">İletişim & Destek</p>
+                <p className="text-sm font-black text-indigo-950">guncelsinavbilgileri@gmail.com</p>
+              </div>
+
+              <div>
+                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Sunucu & Teknik Alt Yapı</p>
+                <p className="text-sm font-black text-indigo-950">Google Cloud Platform & Firebase</p>
+              </div>
+            </div>
+          </div>
+          
+          <p className="mt-4 text-[11px] text-gray-500 font-bold italic leading-relaxed">
+            Bu uygulama, öğretmenlerin sınav görevleri hakkında şeffaf ve hızlı bilgi alabilmesi için kurulan bağımsız bir bilgi platformudur.
+          </p>
+        </section>
+
+        {/* GİZLİLİK ÖZETİ - GÖRSELDEKİ TÜM MADDELER */}
+        <section className="premium-card p-10 border-indigo-100/30">
+          <div className="flex items-center space-x-4 mb-8">
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+              <ShieldCheck size={24} />
+            </div>
+            <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight">Gizlilik Özetimiz</h2>
+          </div>
+          
+          <div className="space-y-8">
+            <div>
+              <h4 className="text-[12px] font-black text-indigo-600 uppercase tracking-widest mb-3 flex items-center">
+                <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-2"></span>
+                1. Veri Toplama
+              </h4>
+              <p className="text-[14px] text-gray-700 font-bold leading-relaxed ml-3.5">
+                Sadece "Görüş Bildir" formundaki mesajlarınız ve anonim kullanım istatistikleri işlenir. Özel hayatınıza ilişkin hassas veriler asla toplanmaz.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-[12px] font-black text-indigo-600 uppercase tracking-widest mb-3 flex items-center">
+                <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-2"></span>
+                2. Bilgi Kaynakları
+              </h4>
+              <p className="text-[14px] text-gray-700 font-bold leading-relaxed ml-3.5">
+                Tüm bilgiler ÖSYM, MEB ve Üniversitelerin kamuya açık duyurularından derlenir. Uygulama bu verileri saklamaz, sadece kolay erişim sağlar.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-[12px] font-black text-indigo-600 uppercase tracking-widest mb-3 flex items-center">
+                <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full mr-2"></span>
+                3. Çocukların Gizliliği
+              </h4>
+              <p className="text-[14px] text-gray-700 font-bold leading-relaxed ml-3.5">
+                Uygulamamız yetişkinlere (öğretmenlere) yöneliktir ve 13 yaş altındaki bireylerden bilerek veri toplamaz.
+              </p>
+            </div>
+
+            <div className="pt-6 border-t border-indigo-50">
+              <p className="text-[11px] text-indigo-400 font-bold italic leading-relaxed">
+                * Politikamız hakkındaki tüm sorularınız için guncelsinavbilgileri@gmail.com üzerinden veya Bize Ulaşın formundan destek alabilirsiniz.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Hakkında & Yasal Uyarı */}
+        <section className="premium-card p-8 border-indigo-100/30">
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="p-3 bg-red-600 rounded-2xl text-white shadow-xl shadow-red-100">
+              <AlertTriangle size={24} />
+            </div>
+            <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight">
+              Yasal Uyarılar
+            </h2>
+          </div>
+
+          <div className="p-6 bg-red-50 rounded-2xl border border-red-100 mb-6">
+            <p className="text-red-950 font-black text-[14px] leading-relaxed">
+              ÖNEMLİ: Bu uygulama bağımsız bir öğretmen rehberidir ve herhangi bir devlet kurumuyla (ÖSYM, MEB, Bakanlık vb.) resmi bir bağı veya temsilciliği bulunmamaktadır.
+            </p>
           </div>
           <div className="space-y-6 text-gray-700 text-[15px] leading-relaxed font-bold opacity-90">
             <p>
-              Uygulama, farklı kurumlardan sınav görevi almak isteyen öğretmenlere zaman kazandırılması ve kolaylık sağlanması amacıyla profesyonel bir hassasiyetle hazırlanmıştır.
+              Uygulama, öğretmenlere sınav görevleri süreçlerinde zaman kazandırmak amacıyla profesyonel bir hassasiyetle hazırlanmıştır.
             </p>
             <p>
-              Uygulama içeriğindeki tüm veriler, herkesin ilgili resmi kurum sitelerinden serbestçe elde edebileceği açık kaynaklı bilgilerden derlenerek oluşturulmaktadır.
-            </p>
-            <p>
-              Uygulamada geliştirilmesi istenen bölümler, yeni eklenmesi talep edilen özellikler veya düzeltilmesi gereken kısımlar "Bize Ulaşın" bölümünden tarafımıza iletilebilir.
+              İçerikteki tüm veriler, ilgili resmi kurum sitelerinden (osym.gov.tr, meb.gov.tr vb.) serbestçe elde edilebilen açık kaynaklı bilgilerdir.
             </p>
           </div>
         </section>
@@ -172,7 +263,7 @@ const Info: React.FC = () => {
           </div>
           
           <div className="mt-12 text-center">
-            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.4em]">Versiyon 2.0.0</p>
+            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.4em]">Versiyon 2.0.5</p>
           </div>
         </section>
       </div>

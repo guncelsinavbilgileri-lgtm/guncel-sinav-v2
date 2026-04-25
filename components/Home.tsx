@@ -11,13 +11,14 @@ import { Browser } from '@capacitor/browser';
 
 interface HomeProps {
   onNewsClick: (news: NewsItem) => void;
+  onContactClick: () => void;
   onExamClick: () => void;
   onFeeClick: () => void;
   onHowToApplyClick: () => void;
   onAcademicCalendarClick: () => void;
 }
 
-const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHowToApplyClick, onAcademicCalendarClick }) => {
+const Home: React.FC<HomeProps> = ({ onNewsClick, onContactClick, onExamClick, onFeeClick, onHowToApplyClick, onAcademicCalendarClick }) => {
   const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [user, setUser] = useState<User | null>(null);
 
@@ -149,7 +150,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         </div>
       </section>
 
-      <section className="px-5 mt-10">
+      <section className="px-5 mt-6">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600 shadow-sm">
@@ -157,6 +158,13 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
             </div>
             <h2 className="text-xl font-black text-indigo-950 title-font tracking-tight uppercase">Son Haberler</h2>
           </div>
+          <button 
+            onClick={onContactClick}
+            className="flex items-center space-x-1 px-3 py-1.5 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-black text-indigo-600 uppercase tracking-widest active:scale-90 transition-all"
+          >
+            <UserCheck size={12} />
+            <span>KÜNYE</span>
+          </button>
         </div>
         
         <div className="flex overflow-x-auto space-x-4 pb-2 scrollbar-hide snap-x px-1">
@@ -199,7 +207,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
       </section>
 
       {/* Hızlı Bağlantılar */}
-      <section className="px-5 mt-10">
+      <section className="px-5 mt-4">
         <div className="flex items-center space-x-3 mb-2">
           <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600">
             <LinkIcon size={18} />
@@ -229,7 +237,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         </div>
       </section>
 
-      <section className="px-5 space-y-5 pt-8">
+      <section className="px-5 space-y-2.5 pt-1">
         {heroExams.map((info) => (
           <div 
             key={info.id} 
@@ -266,7 +274,7 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
         ))}
       </section>
 
-      <section className="mx-5 mt-10 mb-12">
+      <section className="mx-5 mt-10 mb-6">
         <button 
           onClick={handleShare}
           className="w-full p-5 bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-[2rem] shadow-xl flex items-center justify-between group active:scale-95 transition-all overflow-hidden relative"
@@ -285,6 +293,16 @@ const Home: React.FC<HomeProps> = ({ onNewsClick, onExamClick, onFeeClick, onHow
             <ChevronRight size={20} />
           </div>
         </button>
+      </section>
+
+      {/* Global Bottom Disclaimer */}
+      <section className="px-8 pb-4 pt-1 text-center">
+        <div className="flex items-start space-x-3 p-3 bg-indigo-50/30 rounded-2xl border border-indigo-100/50">
+          <AlertCircle size={14} className="text-indigo-300 shrink-0 mt-0.5" />
+          <p className="text-[9px] text-indigo-950/40 font-bold leading-relaxed italic text-left">
+            Bu uygulama bağımsız bir oluşumdur ve herhangi bir devlet kurumunu temsil etmemektedir. Bilgiler resmi kurumlardan teyit edilmelidir.
+          </p>
+        </div>
       </section>
     </div>
   );

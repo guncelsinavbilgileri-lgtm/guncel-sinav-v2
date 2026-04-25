@@ -36,8 +36,26 @@ const Contact: React.FC = () => {
           <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
         </button>
         
-        <p className="mt-8 text-[10px] text-indigo-300 font-black tracking-widest uppercase">
-          guncelsinavbilgileri@gmail.com
+        <div className="mt-12 w-full p-8 bg-gray-50 rounded-[2rem] border border-gray-100 text-left">
+          <h3 className="text-[12px] font-black text-indigo-950 uppercase tracking-[0.2em] mb-4">Yayıncı & İletişim Bilgileri</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center text-[13px]">
+              <span className="text-gray-400 font-bold">Yayıncı:</span>
+              <span className="text-indigo-950 font-black">Güncel Sınav Bilgileri</span>
+            </div>
+            <div className="flex justify-between items-center text-[13px]">
+              <span className="text-gray-400 font-bold">E-posta:</span>
+              <span className="text-indigo-950 font-black">guncelsinavbilgileri@gmail.com</span>
+            </div>
+            <div className="flex justify-between items-start text-[13px]">
+              <span className="text-gray-400 font-bold">Adres:</span>
+              <span className="text-indigo-950 font-black text-right ml-4">Türkiye / İstanbul (Dijital Yayıncılık)</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-8 text-[10px] text-indigo-200 font-black tracking-widest uppercase">
+          Telif Hakları © 2026 - Tüm Hakları Saklıdır.
         </p>
       </div>
     </div>

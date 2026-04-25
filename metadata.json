@@ -1,6 +1,6 @@
 {
-  "name": "Guncel Sinav Bilgileri V2",
-  "description": "Guncel sinav duyurulari, basvuru kilavuzlari ve sinav ucretleri takip uygulamasi.",
+  "name": "Güncel Sınav Bilgileri",
+  "description": "(BİLGİ: Resmi bir devlet kurumu değildir.) Güncel sınav duyuruları, başvuru kılavuzları ve sınav ücretleri takip uygulaması. Tüm veriler resmi kurum sitelerinden (osym, meb vb.) derlenmektedir.",
   "requestFramePermissions": [
     "geolocation"
   ]

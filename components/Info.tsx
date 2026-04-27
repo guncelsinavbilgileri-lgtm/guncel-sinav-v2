@@ -5,27 +5,13 @@ import { testConnection } from '../services/newsService';
 import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 
-const Info: React.FC = () => {
+const Info: React.FC<{ onLegalClick: (type: 'privacy' | 'terms') => void }> = ({ onLegalClick }) => {
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [legalUrls, setLegalUrls] = useState({
-    privacy: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/privacy.html',
-    terms: 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/terms.html'
-  });
-
-  useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'settings', 'app_config'), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setLegalUrls({
-          privacy: data.privacyUrl || 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/privacy.html',
-          terms: data.termsUrl || 'https://guncelsinavbilgileri-lgtm.github.io/guncel-sinav-v2/terms.html'
-        });
-      }
-    });
-    return () => unsub();
-  }, []);
-
+  
+  // Note: We are keeping the database connection logic but we prioritize internal components
+  // to avoid Google Play rejection due to external link errors.
+  
   const handleTestConnection = async () => {
     setTestStatus('testing');
     setErrorMessage(null);
@@ -248,14 +234,14 @@ const Info: React.FC = () => {
           <div className="flex flex-col space-y-4">
             <button 
               className="w-full py-5 bg-white border border-indigo-50 rounded-2xl text-[14px] font-black text-indigo-950 uppercase tracking-[0.2em] active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-3 hover:bg-gray-50"
-              onClick={() => window.open(legalUrls.terms, '_blank')}
+              onClick={() => onLegalClick('terms')}
             >
               <span>Kullanım Koşulları</span>
               <ExternalLink size={16} className="text-indigo-400" />
             </button>
             <button 
               className="w-full py-5 bg-white border border-indigo-50 rounded-2xl text-[14px] font-black text-indigo-950 uppercase tracking-[0.2em] active:scale-95 transition-all shadow-sm flex items-center justify-center space-x-3 hover:bg-gray-50"
-              onClick={() => window.open(legalUrls.privacy, '_blank')}
+              onClick={() => onLegalClick('privacy')}
             >
               <span>Gizlilik Politikası</span>
               <ExternalLink size={16} className="text-indigo-400" />
@@ -263,7 +249,7 @@ const Info: React.FC = () => {
           </div>
           
           <div className="mt-12 text-center">
-            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.4em]">Versiyon 2.0.5</p>
+            <p className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.4em]">Versiyon 2.0.8</p>
           </div>
         </section>
       </div>

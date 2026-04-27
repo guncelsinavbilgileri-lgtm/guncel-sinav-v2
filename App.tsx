@@ -10,6 +10,7 @@ import AcademicCalendarDetail from './components/AcademicCalendarDetail';
 import FeedbackForm from './components/FeedbackForm';
 import Contact from './components/Contact';
 import Info from './components/Info';
+import LegalDetail from './components/LegalDetail';
 import SplashScreen from './components/SplashScreen';
 import { Home as HomeIcon, ClipboardList, Mail, Info as InfoIcon } from 'lucide-react';
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
   const [showFeeDetail, setShowFeeDetail] = useState(false);
   const [showHowToApply, setShowHowToApply] = useState(false);
   const [showAcademicCalendar, setShowAcademicCalendar] = useState(false);
+  const [legalDetail, setLegalDetail] = useState<'privacy' | 'terms' | null>(null);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -40,7 +42,7 @@ const App: React.FC = () => {
       case Tab.Contact:
         return <Contact />;
       case Tab.Info:
-        return <Info />;
+        return <Info onLegalClick={(type) => setLegalDetail(type)} />;
       default:
         return (
           <Home 
@@ -60,7 +62,7 @@ const App: React.FC = () => {
       {!isSplashComplete && <SplashScreen onComplete={() => setIsSplashComplete(true)} />}
       
       {/* Detail Overlays */}
-      {(selectedNews || showExamDetail || showFeeDetail || showHowToApply || showAcademicCalendar) && (
+      {(selectedNews || showExamDetail || showFeeDetail || showHowToApply || showAcademicCalendar || legalDetail) && (
         <div className="fixed inset-x-0 top-0 bottom-0 max-w-md mx-auto z-[60] bg-[#F8FAFF]">
           <div className="relative w-full h-full">
             {selectedNews && <NewsDetail news={selectedNews} onBack={() => setSelectedNews(null)} />}
@@ -68,6 +70,7 @@ const App: React.FC = () => {
             {showFeeDetail && <FeeDetail onBack={() => setShowFeeDetail(false)} />}
             {showHowToApply && <HowToApplyDetail onBack={() => setShowHowToApply(false)} />}
             {showAcademicCalendar && <AcademicCalendarDetail onBack={() => setShowAcademicCalendar(false)} />}
+            {legalDetail && <LegalDetail type={legalDetail} onBack={() => setLegalDetail(null)} />}
           </div>
         </div>
       )}

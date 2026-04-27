@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { ArrowLeft, Shield, FileText } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 
 interface LegalDetailProps {
   type: 'privacy' | 'terms';

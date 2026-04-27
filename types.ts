@@ -10,6 +10,7 @@ export interface NewsItem {
   content: string; // Changed to string for Firestore storage
   category?: string;
   order?: number; // Added for custom sorting
+  source?: string; // Kaynak belirtme zorunluluğu için eklendi
 }
 
 export interface ExamInfo {

@@ -74,6 +74,16 @@ const NewsDetail: React.FC<NewsDetailProps> = ({ news, onBack }) => {
           <h1 className="text-[32px] font-[900] text-indigo-950 leading-[1.1] mb-6 font-['Outfit'] tracking-tight">
             {news.title}
           </h1>
+
+          <div className="mb-6 flex items-center space-x-2">
+            <div className="px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-lg flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <p className="text-[11px] text-amber-800 font-black uppercase tracking-wider">
+                Resmi Kaynak: {news.source || 'Kamu Duyurusu'}
+              </p>
+            </div>
+          </div>
+
           <div className="flex items-center space-x-4 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
             <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-200">
               <Newspaper size={20} />

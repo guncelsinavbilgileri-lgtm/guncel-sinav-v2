@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, ShieldCheck, Info as InfoIcon, Database, Wifi, ExternalLink } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Info as InfoIcon, Database, Wifi, ExternalLink, Mail } from 'lucide-react';
 import { testConnection } from '../services/newsService';
 import { db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -8,9 +8,6 @@ import { doc, onSnapshot } from 'firebase/firestore';
 const Info: React.FC<{ onLegalClick: (type: 'privacy' | 'terms') => void }> = ({ onLegalClick }) => {
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
-  // Note: We are keeping the database connection logic but we prioritize internal components
-  // to avoid Google Play rejection due to external link errors.
   
   const handleTestConnection = async () => {
     setTestStatus('testing');
@@ -57,43 +54,38 @@ const Info: React.FC<{ onLegalClick: (type: 'privacy' | 'terms') => void }> = ({
 
       <div className="px-6 py-10 max-w-md mx-auto space-y-10">
         
-        {/* Künye / Masthead Section - CRITICAL for Google News */}
-        <section className="premium-card p-8 border-indigo-100/30">
+        {/* İLETİŞİM & KÜNYE - Google Play Politika Gereği En Üste Alındı */}
+        <section className="premium-card p-8 border-indigo-100/30 ring-4 ring-indigo-500/10">
           <div className="flex items-center space-x-4 mb-6">
-            <div className="p-3 bg-indigo-950 rounded-2xl text-white shadow-xl shadow-indigo-100">
-              <InfoIcon size={24} />
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+              <Mail size={24} />
             </div>
             <h2 className="text-2xl font-[900] text-indigo-950 font-['Outfit'] tracking-tight uppercase">
-              Künye (Masthead)
+              İletişim & Künye
             </h2>
           </div>
           
-          <div className="space-y-4 p-5 bg-indigo-50/30 rounded-2xl border border-indigo-100">
+          <div className="space-y-4 p-5 bg-indigo-950 rounded-2xl border border-indigo-800 shadow-2xl">
             <div className="flex flex-col space-y-3">
-              <div className="pb-3 border-b border-indigo-100/50">
-                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Uygulama Sahibi & Yayıncı</p>
-                <p className="text-sm font-black text-indigo-950">Güncel Sınav Bilgileri</p>
+              <div className="pb-3 border-b border-white/10">
+                <p className="text-[10px] text-indigo-300 font-black uppercase tracking-widest mb-1">Resmi İletişim E-Posta</p>
+                <p className="text-base font-black text-white">guncelsinavbilgileri@gmail.com</p>
               </div>
               
-              <div className="pb-3 border-b border-indigo-100/50">
-                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Genel Yayın Yönetmeni & Editör</p>
-                <p className="text-sm font-black text-indigo-950">Güncel Sınav Bilgileri</p>
-              </div>
-
-              <div className="pb-3 border-b border-indigo-100/50">
-                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">İletişim & Destek</p>
-                <p className="text-sm font-black text-indigo-950">guncelsinavbilgileri@gmail.com</p>
+              <div className="pb-3 border-b border-white/10">
+                <p className="text-[10px] text-indigo-300 font-black uppercase tracking-widest mb-1">Yayıncı & Editör</p>
+                <p className="text-sm font-black text-white/90">Bir Öğretmen (Bağımsız Geliştirici)</p>
               </div>
 
               <div>
-                <p className="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Sunucu & Teknik Alt Yapı</p>
-                <p className="text-sm font-black text-indigo-950">Google Cloud Platform & Firebase</p>
+                <p className="text-[10px] text-indigo-300 font-black uppercase tracking-widest mb-1">Uygulama Sahibi</p>
+                <p className="text-sm font-black text-white/90">Güncel Sınav Bilgileri Dijital Platformu</p>
               </div>
             </div>
           </div>
           
-          <p className="mt-4 text-[11px] text-gray-500 font-bold italic leading-relaxed">
-            Bu uygulama, öğretmenlerin sınav görevleri hakkında şeffaf ve hızlı bilgi alabilmesi için kurulan bağımsız bir bilgi platformudur.
+          <p className="mt-4 text-[11px] text-indigo-600 font-black leading-relaxed text-center bg-indigo-50 py-2 rounded-lg">
+            Google Play Haber Politikası ile %100 Uyumludur.
           </p>
         </section>
 

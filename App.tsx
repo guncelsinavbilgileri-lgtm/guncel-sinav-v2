@@ -10,8 +10,8 @@ import AcademicCalendarDetail from './components/AcademicCalendarDetail';
 import FeedbackForm from './components/FeedbackForm';
 import Contact from './components/Contact';
 import Info from './components/Info';
-import LegalDetail from './components/LegalDetail';
 import SplashScreen from './components/SplashScreen';
+import LegalDetail from './components/LegalDetail';
 import { Home as HomeIcon, ClipboardList, Mail, Info as InfoIcon } from 'lucide-react';
 
 const App: React.FC = () => {
